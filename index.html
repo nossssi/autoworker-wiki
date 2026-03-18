@@ -343,6 +343,77 @@
 
         .hidden { display: none !important; }
 
+        /* 용어 인덱스 - 데스크톱: 왼쪽 플로팅 / 모바일: 상단 가로 스크롤 */
+        .term-index {
+            display: none;
+        }
+        .term-index.visible {
+            display: flex;
+        }
+        /* 모바일: 가로 스크롤 바 */
+        .term-index.visible {
+            flex-direction: row;
+            gap: 0.3rem;
+            padding: 0.5rem 0;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 50;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .term-index::-webkit-scrollbar { display: none; }
+        .term-index a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .term-index a:hover {
+            background: var(--bg-secondary);
+            color: var(--text);
+        }
+        .term-index a.active {
+            background: var(--text);
+            color: #fff;
+        }
+        /* 데스크톱: 왼쪽 세로 플로팅 */
+        @media (min-width: 1100px) {
+            .term-index.visible {
+                position: fixed;
+                left: calc((100vw - 900px) / 2 - 60px);
+                top: 50%;
+                transform: translateY(-50%);
+                flex-direction: column;
+                gap: 0.15rem;
+                padding: 0.5rem 0.3rem;
+                background: var(--bg);
+                border: 1px solid var(--border-light);
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                overflow-x: visible;
+                border-bottom: 1px solid var(--border-light);
+                margin-bottom: 0;
+                z-index: 50;
+            }
+            .term-index a {
+                min-width: 34px;
+                height: 34px;
+                font-size: 0.8rem;
+            }
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -388,14 +459,30 @@
 <!-- ===== 용어사전 ===== -->
 <div class="tab-content active" id="tab-terms">
 
-<div class="section-title">ㄱ</div>
+<nav class="term-index visible" id="termIndex">
+    <a href="#term-g">ㄱ</a>
+    <a href="#term-d">ㄷ</a>
+    <a href="#term-m">ㅁ</a>
+    <a href="#term-b">ㅂ</a>
+    <a href="#term-s">ㅅ</a>
+    <a href="#term-o">ㅇ</a>
+    <a href="#term-j">ㅈ</a>
+    <a href="#term-ch">ㅊ</a>
+    <a href="#term-k">ㅋ</a>
+    <a href="#term-t">ㅌ</a>
+    <a href="#term-p">ㅍ</a>
+    <a href="#term-h">ㅎ</a>
+    <a href="#term-en">A~Z</a>
+</nav>
+
+<div class="section-title" id="term-g">ㄱ</div>
 <div class="term-item searchable">
     <div class="term-name">그록 (Grok)</div>
     <div class="term-desc">X(트위터)의 AI. 이미지→동영상 변환 기능. 슈퍼그록 유료 사용 시 10초 영상 생성 가능</div>
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㄷ</div>
+<div class="section-title" id="term-d">ㄷ</div>
 <div class="term-item searchable">
     <div class="term-name">디키 유통</div>
     <div class="term-desc">해외 음원 유통 서비스. 빠른 유통, 쓴만큼만 과금. 국내보다 빠르지만 정산은 느림</div>
@@ -407,14 +494,14 @@
     <div class="term-source">3/16</div>
 </div>
 
-<div class="section-title">ㅁ</div>
+<div class="section-title" id="term-m">ㅁ</div>
 <div class="term-item searchable">
     <div class="term-name">뮤레카 (Mureka)</div>
     <div class="term-desc">AI 음악 생성 서비스 (Suno 유사)</div>
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅂ</div>
+<div class="section-title" id="term-b">ㅂ</div>
 <div class="term-item searchable">
     <div class="term-name">바이브코딩</div>
     <div class="term-desc">AI에게 자연어로 지시하여 코드를 만드는 방법</div>
@@ -426,7 +513,7 @@
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅅ</div>
+<div class="section-title" id="term-s">ㅅ</div>
 <div class="term-item searchable">
     <div class="term-name">세컨드 브레인</div>
     <div class="term-desc">AI와 연결된 개인 지식/업무 관리 시스템. 클로드에 연결해서 질문하면 편리</div>
@@ -443,7 +530,7 @@
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅇ</div>
+<div class="section-title" id="term-o">ㅇ</div>
 <div class="term-item searchable">
     <div class="term-name">안티그래비티</div>
     <div class="term-desc">AI 코딩 뷰어/에디터. 클로드 엔진과 함께 사용 가능</div>
@@ -475,14 +562,14 @@
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅈ</div>
+<div class="section-title" id="term-j">ㅈ</div>
 <div class="term-item searchable">
     <div class="term-name">젠스파크 (Genspark)</div>
     <div class="term-desc">AI 검색/대화 도구</div>
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅊ</div>
+<div class="section-title" id="term-ch">ㅊ</div>
 <div class="term-item searchable">
     <div class="term-name">캄보디하클</div>
     <div class="term-desc">디하클의 별명/애칭 (캄보디아 + 디하클)</div>
@@ -494,21 +581,21 @@
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅋ</div>
+<div class="section-title" id="term-k">ㅋ</div>
 <div class="term-item searchable">
     <div class="term-name">클로드코드</div>
     <div class="term-desc">AI 코딩 도구. 터미널/데스크탑앱에서 사용. 최근 업데이트로 앱에서도 사용 가능</div>
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅌ</div>
+<div class="section-title" id="term-t">ㅌ</div>
 <div class="term-item searchable">
     <div class="term-name">튜브워커</div>
     <div class="term-desc">대본을 넣으면 영상까지 자동으로 만들어주는 도구. 노씨 개발, 대국밥 조교가 확장</div>
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅍ</div>
+<div class="section-title" id="term-p">ㅍ</div>
 <div class="term-item searchable">
     <div class="term-name">파이썬 (Python)</div>
     <div class="term-desc">프로그래밍 언어. 직접 안 쓰고 클로드가 사용함</div>
@@ -525,7 +612,7 @@
     <div class="term-source">3/17</div>
 </div>
 
-<div class="section-title">ㅎ</div>
+<div class="section-title" id="term-h">ㅎ</div>
 <div class="term-item searchable">
     <div class="term-name">화이트리스트</div>
     <div class="term-desc">유튜브 저작권 경고에서 자기 음원임을 소명하는 절차. 유통 사이트 캡쳐로 인증</div>
@@ -537,7 +624,7 @@
     <div class="term-source">3/18</div>
 </div>
 
-<div class="section-title">영문</div>
+<div class="section-title" id="term-en">영문</div>
 <div class="term-item searchable">
     <div class="term-name">context window</div>
     <div class="term-desc">AI가 한 번에 처리할 수 있는 텍스트 양</div>
@@ -1144,12 +1231,41 @@
 </div>
 
 <script>
+// Tab switching + term index visibility
+const termIndex = document.getElementById('termIndex');
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        termIndex.classList.toggle('visible', btn.dataset.tab === 'terms');
+    });
+});
+
+// Smooth scroll for term index links
+document.querySelectorAll('.term-index a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// Highlight current section in term index on scroll
+const termSections = document.querySelectorAll('#tab-terms .section-title[id]');
+const termLinks = document.querySelectorAll('.term-index a');
+window.addEventListener('scroll', () => {
+    let current = '';
+    termSections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 120) {
+            current = section.id;
+        }
+    });
+    termLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
     });
 });
 
