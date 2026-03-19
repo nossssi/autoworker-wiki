@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>오토워커 1기 위키</title>
-    <meta name="description" content="오토워커 1기 수강생을 위한 위키 - 용어사전, Q&A, 꿀팁, 공지사항">
+    <meta name="description" content="오토워커 1기 수강생을 위한 위키 - 용어사전, Q&A, 꿀팁, 일별정리">
     <meta property="og:title" content="오토워커 1기 위키">
-    <meta property="og:description" content="용어사전 · Q&A · 꿀팁 · 공지사항 — 카톡방 핵심 정보 총정리">
+    <meta property="og:description" content="용어사전 · Q&A · 꿀팁 · 일별정리 — 카톡방 핵심 정보 총정리">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://wiki.autoworkers.ai">
     <meta property="og:locale" content="ko_KR">
@@ -18,22 +18,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #ffffff;
-            --bg-secondary: #f7f7f5;
-            --surface: #ffffff;
-            --accent: #2383e2;
-            --accent-light: #e8f0fe;
-            --accent-hover: #1a6fc4;
-            --text: #37352f;
-            --text-secondary: #787774;
-            --text-light: #a8a29e;
-            --border: #e8e5e0;
-            --border-light: #f1eeea;
-            --tag-orange: #fdecc8;
-            --tag-green: #dbeddb;
-            --tag-blue: #d3e5ef;
-            --tag-purple: #e8deee;
-            --shadow: 0 1px 3px rgba(0,0,0,0.04);
+            --bg: #0f0f0f;
+            --surface: #1a1a2e;
+            --surface2: #16213e;
+            --accent: #e94560;
+            --text: #eee;
+            --text-dim: #999;
+            --border: #2a2a4a;
         }
 
         body {
@@ -44,7 +35,6 @@
             min-height: 100vh;
         }
 
-        /* Header - Notion style compact */
         .header {
             max-width: 900px;
             margin: 0 auto;
@@ -54,11 +44,10 @@
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            color: var(--text);
         }
         .header .sub {
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            color: var(--text-dim);
             margin-top: 0.3rem;
         }
         .stats {
@@ -71,16 +60,14 @@
             display: inline-block;
             font-size: 0.75rem;
             font-weight: 500;
-            padding: 0.15rem 0.5rem;
-            border-radius: 3px;
-            color: var(--text);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
         }
-        .stat-tag.orange { background: var(--tag-orange); }
-        .stat-tag.green { background: var(--tag-green); }
-        .stat-tag.blue { background: var(--tag-blue); }
-        .stat-tag.purple { background: var(--tag-purple); }
+        .stat-tag.orange { background: #e9456033; color: #e94560; }
+        .stat-tag.green { background: #00b37033; color: #00b370; }
+        .stat-tag.blue { background: #2383e233; color: #6cb4ee; }
+        .stat-tag.purple { background: #9b59b633; color: #bb86fc; }
 
-        /* Search */
         .search-wrap {
             max-width: 900px;
             margin: 0 auto;
@@ -88,38 +75,31 @@
         }
         .search-input {
             width: 100%;
-            padding: 0.55rem 0.8rem;
-            background: var(--bg-secondary);
+            padding: 0.6rem 1rem;
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             color: var(--text);
             font-size: 0.88rem;
             font-family: inherit;
             outline: none;
-            transition: border-color 0.15s, box-shadow 0.15s;
+            transition: border-color 0.15s;
         }
-        .search-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(35,131,226,0.1);
-        }
-        .search-input::placeholder { color: var(--text-light); }
+        .search-input:focus { border-color: var(--accent); }
+        .search-input::placeholder { color: var(--text-dim); }
 
-        /* Tabs - Notion style underline tabs */
         .tabs-wrap {
             max-width: 900px;
             margin: 0 auto;
             padding: 0 2rem;
             border-bottom: 1px solid var(--border);
         }
-        .tabs {
-            display: flex;
-            gap: 0;
-        }
+        .tabs { display: flex; gap: 0; }
         .tab-btn {
             padding: 0.6rem 1rem;
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-dim);
             font-size: 0.88rem;
             font-weight: 500;
             font-family: inherit;
@@ -128,13 +108,9 @@
             transition: all 0.15s;
             margin-bottom: -1px;
         }
-        .tab-btn.active {
-            color: var(--text);
-            border-bottom-color: var(--text);
-        }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
         .tab-btn:hover { color: var(--text); }
 
-        /* Content */
         .content {
             max-width: 900px;
             margin: 0 auto;
@@ -143,276 +119,22 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Section title - Notion H2 style */
         .section-title {
             font-size: 1.05rem;
             font-weight: 600;
-            color: var(--text);
             margin: 2rem 0 0.8rem 0;
             padding-bottom: 0.4rem;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border);
+            color: var(--accent);
         }
         .section-title:first-child { margin-top: 0; }
-        .section-title.term-anchor {
-            height: 0;
-            margin: 0;
-            padding: 0;
-            border: none;
-            overflow: hidden;
-            font-size: 0;
-        }
 
-        /* 용어사전 - with detail toggle */
-        .term-item {
-            border-bottom: 1px solid var(--border-light);
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .term-item:hover {
-            background: var(--bg-secondary);
-        }
-        .term-item:last-of-type { border-bottom: none; }
-        .term-row {
-            padding: 0.7rem 0;
-            display: flex;
-            gap: 1rem;
-            align-items: baseline;
-        }
-        .term-toggle {
-            flex-shrink: 0;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-light);
-            font-size: 0.6rem;
-            transition: transform 0.15s;
-            border-radius: 3px;
-        }
-        .term-item.open .term-toggle { transform: rotate(90deg); }
-        .term-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text);
-            min-width: 130px;
-            flex-shrink: 0;
-        }
-        .term-desc {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            flex: 1;
-        }
-        .term-source {
-            font-size: 0.72rem;
-            color: var(--text-light);
-            flex-shrink: 0;
-        }
-        .term-detail {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        .term-item.open .term-detail {
-            max-height: 500px;
-        }
-        .term-detail-inner {
-            padding: 0 0 0.8rem 2rem;
-            font-size: 0.85rem;
-            color: var(--text);
-            line-height: 1.9;
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            padding: 0.8rem 1rem;
-            margin: 0 0 0.5rem 0;
-        }
-        .term-detail-inner .detail-label {
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.3rem;
-        }
-
-        /* Q&A - Notion toggle style */
-        .qa-item {
-            border-bottom: 1px solid var(--border-light);
-        }
-        .qa-item:last-of-type { border-bottom: none; }
-        .qa-question {
-            padding: 0.8rem 0;
-            font-weight: 500;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text);
-            user-select: none;
-        }
-        .qa-question .toggle {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-light);
-            font-size: 0.65rem;
-            transition: transform 0.15s;
-            border-radius: 3px;
-        }
-        .qa-question .toggle:hover { background: var(--bg-secondary); }
-        .qa-item.open .qa-question .toggle { transform: rotate(90deg); }
-        .qa-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.25s ease;
-        }
-        .qa-item.open .qa-answer { max-height: 500px; }
-        .qa-answer-inner {
-            padding: 0 0 0.8rem 1.6rem;
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-        .qa-answer-inner .source {
-            font-size: 0.72rem;
-            color: var(--text-light);
-            margin-top: 0.4rem;
-        }
-
-        /* 꿀팁 - Notion callout style */
-        .tip-item {
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            padding: 0.8rem 1rem;
-            margin-bottom: 0.5rem;
-        }
-        .tip-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-        .tip-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.2rem;
-        }
-        .tip-source {
-            font-size: 0.72rem;
-            color: var(--text-light);
-            margin-top: 0.3rem;
-        }
-
-        /* Cost table */
-        .cost-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            margin: 0.5rem 0;
-        }
-        .cost-table th {
-            background: var(--bg-secondary);
-            padding: 0.6rem 0.8rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            border-bottom: 1px solid var(--border);
-        }
-        .cost-table td {
-            padding: 0.55rem 0.8rem;
-            border-bottom: 1px solid var(--border-light);
-            color: var(--text);
-        }
-        .cost-table tr:last-child td { border-bottom: none; }
-
-        /* Daily */
-        .daily-nav {
-            display: flex;
-            gap: 0.4rem;
-            margin-bottom: 1.2rem;
-            flex-wrap: wrap;
-        }
-        .daily-btn {
-            padding: 0.35rem 0.8rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--text-secondary);
-            font-size: 0.82rem;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .daily-btn:hover { background: var(--border-light); }
-        .daily-btn.active {
-            background: var(--text);
-            color: #fff;
-            border-color: var(--text);
-        }
-        .daily-content { display: none; }
-        .daily-content.active { display: block; }
-
-        .daily-summary {
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 1.2rem;
-        }
-        .daily-summary-title {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        .daily-summary-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.2rem;
-        }
-
-        .daily-section-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text);
-            margin: 1.2rem 0 0.5rem 0;
-        }
-
-        /* Card */
-        .card {
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 0.8rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            .header { padding: 2rem 1rem 0.8rem 1rem; }
-            .header h1 { font-size: 1.5rem; }
-            .search-wrap { padding: 0.5rem 1rem; }
-            .tabs-wrap { padding: 0 1rem; }
-            .content { padding: 1rem; }
-            .term-row {
-                flex-wrap: wrap;
-                gap: 0.2rem;
-            }
-            .term-name { min-width: unset; }
-        }
-
-        .hidden { display: none !important; }
-
-        /* 용어 인덱스 */
+        /* Term index */
         .term-index {
             display: none;
         }
         .term-index.visible {
             display: flex;
-        }
-        .term-index.visible {
             flex-direction: row;
             gap: 0.3rem;
             padding: 0.5rem 0;
@@ -424,7 +146,7 @@
             top: 0;
             background: var(--bg);
             z-index: 50;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border);
         }
         .term-index::-webkit-scrollbar { display: none; }
         .term-index a {
@@ -436,19 +158,13 @@
             border-radius: 6px;
             font-size: 0.82rem;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-dim);
             text-decoration: none;
             transition: all 0.15s;
             flex-shrink: 0;
         }
-        .term-index a:hover {
-            background: var(--bg-secondary);
-            color: var(--text);
-        }
-        .term-index a.active {
-            background: var(--text);
-            color: #fff;
-        }
+        .term-index a:hover { background: var(--surface); color: var(--text); }
+        .term-index a.active { background: var(--accent); color: #fff; }
         @media (min-width: 1100px) {
             .term-index.visible {
                 position: fixed;
@@ -458,33 +174,164 @@
                 flex-direction: column;
                 gap: 0.15rem;
                 padding: 0.5rem 0.3rem;
-                background: var(--bg);
-                border: 1px solid var(--border-light);
+                background: var(--surface);
+                border: 1px solid var(--border);
                 border-radius: 10px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
                 overflow-x: visible;
-                border-bottom: 1px solid var(--border-light);
                 margin-bottom: 0;
-                z-index: 50;
             }
-            .term-index a {
-                min-width: 34px;
-                height: 34px;
-                font-size: 0.8rem;
-            }
+            .term-index a { min-width: 34px; height: 34px; font-size: 0.8rem; }
         }
 
-        /* Scrollbar */
+        .term-anchor {
+            height: 0; margin: 0; padding: 0; border: none; overflow: hidden; font-size: 0;
+        }
+
+        .term-item {
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .term-item:hover { background: var(--surface); }
+        .term-row {
+            padding: 0.7rem 0;
+            display: flex;
+            gap: 1rem;
+            align-items: baseline;
+        }
+        .term-toggle {
+            flex-shrink: 0; width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-dim); font-size: 0.6rem;
+            transition: transform 0.15s;
+        }
+        .term-item.open .term-toggle { transform: rotate(90deg); }
+        .term-name {
+            font-weight: 600; font-size: 0.9rem; min-width: 130px; flex-shrink: 0;
+        }
+        .term-desc { font-size: 0.88rem; color: var(--text-dim); flex: 1; }
+        .term-source { font-size: 0.72rem; color: var(--text-dim); flex-shrink: 0; }
+        .term-detail { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .term-item.open .term-detail { max-height: 500px; }
+        .term-detail-inner {
+            padding: 0.8rem 1rem;
+            font-size: 0.85rem;
+            line-height: 1.9;
+            background: var(--surface);
+            border-radius: 6px;
+            margin: 0 0 0.5rem 0;
+        }
+        .detail-label {
+            font-size: 0.72rem; font-weight: 600; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;
+        }
+
+        /* QA */
+        .qa-item { border-bottom: 1px solid var(--border); }
+        .qa-question {
+            padding: 0.8rem 0;
+            font-weight: 500; font-size: 0.9rem;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 0.5rem;
+            user-select: none;
+        }
+        .qa-question .toggle {
+            flex-shrink: 0; width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-dim); font-size: 0.65rem;
+            transition: transform 0.15s; border-radius: 3px;
+        }
+        .qa-question .toggle:hover { background: var(--surface); }
+        .qa-item.open .qa-question .toggle { transform: rotate(90deg); }
+        .qa-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+        .qa-item.open .qa-answer { max-height: 1500px; }
+        .qa-answer-inner {
+            padding: 0 0 0.8rem 1.6rem;
+            font-size: 0.88rem; color: var(--text-dim); line-height: 1.8;
+        }
+        .qa-answer-inner .source { font-size: 0.72rem; color: #666; margin-top: 0.4rem; }
+
+        /* Tips */
+        .tip-item {
+            background: var(--surface);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 6px 6px 0;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .tip-title { font-weight: 600; font-size: 0.9rem; }
+        .tip-desc { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.2rem; }
+        .tip-source { font-size: 0.72rem; color: #666; margin-top: 0.3rem; }
+
+        /* Cost table */
+        .cost-table {
+            width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.5rem 0;
+        }
+        .cost-table th {
+            background: var(--surface2); padding: 0.6rem 0.8rem; text-align: left;
+            font-weight: 600; font-size: 0.8rem; color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+        }
+        .cost-table td {
+            padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border);
+        }
+
+        /* Daily */
+        .daily-nav {
+            display: flex; gap: 0.4rem; margin-bottom: 1.2rem; flex-wrap: wrap;
+        }
+        .daily-btn {
+            padding: 0.35rem 0.8rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-dim);
+            font-size: 0.82rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .daily-btn:hover { background: var(--surface2); }
+        .daily-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .daily-content { display: none; }
+        .daily-content.active { display: block; }
+
+        .daily-summary {
+            background: var(--surface); border-radius: 6px; padding: 1rem; margin-bottom: 1.2rem;
+        }
+        .daily-summary-title { font-weight: 600; font-size: 0.95rem; }
+        .daily-summary-desc { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+        .daily-section-title {
+            font-size: 0.9rem; font-weight: 600; margin: 1.2rem 0 0.5rem 0; color: var(--accent);
+        }
+
+        .daily-item {
+            background: var(--surface); border-radius: 6px; padding: 0.6rem 1rem; margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+        }
+        .daily-item .label { color: var(--accent); font-weight: 600; }
+
+        a { color: var(--accent); }
+
+        @media (max-width: 640px) {
+            .header { padding: 2rem 1rem 0.8rem 1rem; }
+            .header h1 { font-size: 1.5rem; }
+            .search-wrap { padding: 0.5rem 1rem; }
+            .tabs-wrap { padding: 0 1rem; }
+            .content { padding: 1rem; }
+            .term-row { flex-wrap: wrap; gap: 0.2rem; }
+            .term-name { min-width: unset; }
+        }
+
+        .hidden { display: none !important; }
+
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
 
-        /* Footer */
         .footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-light);
-            font-size: 0.75rem;
+            text-align: center; padding: 2rem; color: var(--text-dim); font-size: 0.75rem;
         }
     </style>
 </head>
@@ -494,9 +341,9 @@
     <h1>오토워커 1기 위키</h1>
     <div class="sub">카톡방에서 나온 핵심 정보를 정리합니다</div>
     <div class="stats">
-        <span class="stat-tag orange">용어 33개</span>
-        <span class="stat-tag green">Q&A 25개</span>
-        <span class="stat-tag blue">꿀팁 20개</span>
+        <span class="stat-tag orange">용어 41개</span>
+        <span class="stat-tag green">Q&A 52개</span>
+        <span class="stat-tag blue">꿀팁 35개</span>
         <span class="stat-tag purple">업데이트 2026-03-19</span>
     </div>
 </div>
@@ -507,8 +354,7 @@
 
 <div class="tabs-wrap">
     <div class="tabs">
-        <button class="tab-btn active" data-tab="notice">공지사항</button>
-        <button class="tab-btn" data-tab="terms">용어사전</button>
+        <button class="tab-btn active" data-tab="terms">용어사전</button>
         <button class="tab-btn" data-tab="qa">Q&A</button>
         <button class="tab-btn" data-tab="tips">꿀팁</button>
         <button class="tab-btn" data-tab="daily">일별정리</button>
@@ -517,35 +363,8 @@
 
 <div class="content">
 
-<!-- ===== 공지사항 ===== -->
-<div class="tab-content active" id="tab-notice">
-
-<div class="section-title">공지</div>
-
-<div class="tip-item searchable" style="cursor:pointer;" onclick="window.open('https://hypnotic-concrete-dcf.notion.site/1-328c8b6667408139a922c0132c79b392','_blank')">
-    <div class="tip-title" style="color:var(--accent);">📢 1기 프로그램 기간 사용 공지</div>
-    <div class="tip-desc">1~3개월차 무료, 4~6개월차 일반반 월 9.9만원 / 프리미엄반 월 9.9~14.9만원 (월 1,500분 한도). 클릭하면 노션 페이지로 이동합니다.</div>
-    <div class="tip-source">필수 확인</div>
-</div>
-
-<div class="section-title">강의 준비</div>
-
-<div class="tip-item searchable" style="cursor:pointer;" onclick="window.open('https://www.notion.so/328c8b66674081e0ab3ac0211e83e328','_blank')">
-    <div class="tip-title" style="color:var(--accent);">📋 강의 전 준비사항</div>
-    <div class="tip-desc">클로드 Pro 결제, 데스크탑 앱, VSCode, 미리캔버스, Grok/Whisk 가입, 노션 계정 등 1주차 강의(3/19) 전 준비물 체크리스트. 클릭하면 노션 페이지로 이동합니다.</div>
-    <div class="tip-source">필수 확인</div>
-</div>
-
-<div class="tip-item searchable" style="cursor:pointer;" onclick="window.open('https://hypnotic-concrete-dcf.notion.site/328c8b6667408185b4b4f59998272d81','_blank')">
-    <div class="tip-title" style="color:var(--accent);">💻 컴퓨터 사양 안내 — 고사양 필요 없습니다!</div>
-    <div class="tip-desc">5년 이내 노트북이면 충분합니다. 최소/권장 사양, 추천 노트북, 자주 묻는 질문을 정리했습니다. 클릭하면 노션 페이지로 이동합니다.</div>
-    <div class="tip-source">필수 확인</div>
-</div>
-
-</div>
-
 <!-- ===== 용어사전 ===== -->
-<div class="tab-content" id="tab-terms">
+<div class="tab-content active" id="tab-terms">
 
 <nav class="term-index visible" id="termIndex">
     <a href="#term-g">ㄱ</a>
@@ -563,7 +382,9 @@
     <a href="#term-en">A~Z</a>
 </nav>
 
-<div class="section-title term-anchor" id="term-g">ㄱ</div>
+<!-- ㄱ -->
+<div class="section-title term-anchor" id="term-g"></div>
+<div class="section-title">ㄱ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -577,7 +398,21 @@
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-d">ㄷ</div>
+<!-- ㄷ -->
+<div class="section-title term-anchor" id="term-d"></div>
+<div class="section-title">ㄷ</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">크롬 원격 데스크톱</div>
+        <div class="term-desc">같은 구글 아이디로 PC간 원격 접속하는 프로그램. 리부팅해도 재접속 가능</div>
+        <div class="term-source">3/19</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        집 컴퓨터와 사무실 컴퓨터를 같은 구글 아이디로 연결하면, 어디서든 다른 컴퓨터를 원격으로 조작할 수 있는 무료 프로그램입니다. 크롬 브라우저에서 바로 사용 가능하고, 원격 PC를 껐다 켜도 자동으로 다시 연결됩니다. 팀뷰어와 함께 쓰면 파일 복사까지 가능합니다.
+    </div></div>
+</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -603,7 +438,9 @@
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-m">ㅁ</div>
+<!-- ㅁ -->
+<div class="section-title term-anchor" id="term-m"></div>
+<div class="section-title">ㅁ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -613,11 +450,25 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI가 자동으로 음악을 작곡해주는 서비스입니다. 원하는 분위기나 장르를 텍스트로 설명하면 AI가 노래를 만들어줍니다. "잔잔한 피아노곡 만들어줘"처럼 말로 지시하면 됩니다. 수노(Suno)와 비슷한 서비스입니다.
+        AI가 자동으로 음악을 작곡해주는 서비스입니다. 원하는 분위기나 장르를 텍스트로 설명하면 AI가 노래를 만들어줍니다. "잔잔한 피아노곡 만들어줘"처럼 말로 지시하면 됩니다.
+    </div></div>
+</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">버닝타임</div>
+        <div class="term-desc">클로드 사용량이 적은 시간대에 기존 요금제의 2배를 제공하는 프로모션</div>
+        <div class="term-source">3/18</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        클로드가 한국시간 03:00~21:00에 사용량을 2배로 늘려주는 이벤트입니다. 마치 통신사의 '데이터 2배' 프로모션처럼, 같은 요금제를 쓰면서 두 배로 사용할 수 있습니다. 한국은 미국과 시차가 있어서 한국의 낮 시간이 미국의 밤이라 혜택을 받기 유리합니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-b">ㅂ</div>
+<!-- ㅂ -->
+<div class="section-title term-anchor" id="term-b"></div>
+<div class="section-title">ㅂ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -627,7 +478,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        코딩을 전혀 몰라도 AI에게 "이런 거 만들어줘"라고 한국어로 말하면 AI가 코드를 대신 짜주는 방식입니다. 예를 들어 "유튜브 썸네일 만드는 웹페이지 만들어줘"라고 하면 클로드가 알아서 코드를 작성합니다. '바이브(분위기)'만 전달하면 된다는 뜻에서 붙은 이름입니다.
+        코딩을 전혀 몰라도 AI에게 "이런 거 만들어줘"라고 한국어로 말하면 AI가 코드를 대신 짜주는 방식입니다. '바이브(분위기)'만 전달하면 된다는 뜻에서 붙은 이름입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -639,11 +490,25 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        영상에 자막을 자동으로 넣어주는 편집 도구입니다. 영상을 올리면 AI가 음성을 인식해서 자막을 만들어주고, 간단한 편집도 할 수 있습니다. 한국 회사(보이저엑스)가 만들어서 한국어 인식이 좋습니다.
+        영상에 자막을 자동으로 넣어주는 편집 도구입니다. 한국 회사(보이저엑스)가 만들어서 한국어 인식이 좋습니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-s">ㅅ</div>
+<!-- ㅅ -->
+<div class="section-title term-anchor" id="term-s"></div>
+<div class="section-title">ㅅ</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">3단계 인증 (고급인증)</div>
+        <div class="term-desc">유튜브 고급 기능(관련동영상, 댓글고정 등) 사용을 위한 본인 인증 절차</div>
+        <div class="term-source">3/18</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        유튜브에서 고급 기능(관련 동영상 추가, 댓글 고정 등)을 사용하려면 본인 인증이 필요합니다. 중급(전화번호)을 거쳐 고급(얼굴인증)으로 올라가는 단계가 있습니다. 다채널 운영 시 같은 얼굴로 인증하면 한 채널이 벤 당했을 때 다른 채널도 영향받을 수 있어 주의가 필요합니다.
+    </div></div>
+</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -653,7 +518,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        '제2의 뇌'라는 뜻입니다. 내가 모은 정보, 메모, 자료를 체계적으로 저장해두고 AI와 연결하는 시스템입니다. 예를 들어 강의 노트, 아이디어, 참고 자료를 한곳에 모아두면 나중에 클로드에게 "지난번에 정리한 유튜브 전략 알려줘"라고 물어볼 수 있습니다.
+        '제2의 뇌'라는 뜻입니다. 내가 모은 정보, 메모, 자료를 체계적으로 저장해두고 AI와 연결하는 시스템입니다. 나중에 클로드에게 "지난번에 정리한 유튜브 전략 알려줘"라고 물어볼 수 있습니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -665,7 +530,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        텍스트로 설명하면 AI가 자동으로 노래를 만들어주는 서비스입니다. "슬픈 발라드 만들어줘"처럼 분위기만 알려주면 가사, 멜로디, 보컬까지 자동으로 생성됩니다. 유튜브 배경음악이나 음악 채널 운영에 활용할 수 있습니다.
+        텍스트로 설명하면 AI가 자동으로 노래를 만들어주는 서비스입니다. 가사, 멜로디, 보컬까지 자동 생성됩니다. 유튜브 배경음악이나 음악 채널 운영에 활용됩니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -677,21 +542,47 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        클로드에서 자주 쓰는 작업을 하나의 명령어로 묶어놓은 것입니다. 마치 요리 레시피처럼, 여러 단계(주제 분석 → 대본 작성 → 검수)를 한 번의 명령으로 자동 실행합니다. 반복 작업을 매번 설명할 필요 없이 한마디로 끝낼 수 있습니다.
+        클로드에서 자주 쓰는 작업을 하나의 명령어로 묶어놓은 것입니다. 마치 요리 레시피처럼, 여러 단계를 한 번의 명령으로 자동 실행합니다.
     </div></div>
 </div>
-
-<div class="section-title term-anchor" id="term-o">ㅇ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
-        <div class="term-name">안티그래비티</div>
+        <div class="term-name">스타코덱</div>
+        <div class="term-desc">윈도우 동영상 코덱 패키지. 설치하면 대부분의 영상 재생 가능</div>
+        <div class="term-source">3/19</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        윈도우에서 동영상이 안 나올 때 설치하면 거의 모든 영상을 재생할 수 있게 해주는 무료 프로그램입니다. 마치 외국어 통역기처럼, 컴퓨터가 다양한 영상 형식을 이해할 수 있게 해줍니다.
+    </div></div>
+</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">스펙트럼 생성기</div>
+        <div class="term-desc">음악 영상용 오디오 시각화(파형) 생성 도구. 아는아이님 개발</div>
+        <div class="term-source">3/19</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        음악이 재생될 때 보이는 파형(막대그래프 움직이는 것)을 자동으로 만들어주는 도구입니다. 음악 채널 영상에서 배경에 깔아두면 영상이 더 풍성해 보입니다.
+    </div></div>
+</div>
+
+<!-- ㅇ -->
+<div class="section-title term-anchor" id="term-o"></div>
+<div class="section-title">ㅇ</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">안티그래비티 (Antigravity)</div>
         <div class="term-desc">AI 코딩 뷰어/에디터. 클로드 엔진과 함께 사용 가능</div>
         <div class="term-source">3/17</div>
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        코드를 보기 편하게 보여주는 편집기/뷰어 프로그램입니다. 클로드 AI 엔진과 연결해서 사용할 수 있어서, AI에게 지시하면서 결과물을 바로 확인하는 용도로 씁니다. 터미널(검은 화면)이 어려운 분들에게 좋은 대안입니다.
+        코드를 보기 편하게 보여주는 편집기/뷰어 프로그램입니다. 터미널(검은 화면)이 어려운 분들에게 좋은 대안입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -703,7 +594,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        특정 역할과 업무를 맡은 AI 직원 같은 것입니다. 예를 들어 "대본 쓰는 에이전트", "자막 만드는 에이전트", "이미지 찾는 에이전트"처럼 각각 다른 일을 하는 AI를 세팅해서 마치 팀처럼 일을 시킬 수 있습니다.
+        특정 역할과 업무를 맡은 AI 직원 같은 것입니다. "대본 쓰는 에이전트", "자막 만드는 에이전트"처럼 각각 다른 일을 하는 AI를 세팅해서 팀처럼 일을 시킬 수 있습니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -715,7 +606,19 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        카카오톡 채팅방에서 특정 키워드가 입력되면 자동으로 답변하는 프로그램입니다. 수강생 후파님이 만들었으며, 자주 묻는 질문에 자동으로 응답해서 같은 질문이 반복되는 것을 줄여줍니다.
+        카카오톡 채팅방에서 특정 키워드가 입력되면 자동으로 답변하는 프로그램입니다. 자주 묻는 질문에 자동으로 응답합니다.
+    </div></div>
+</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">오토위키</div>
+        <div class="term-desc">카톡방 대화를 정리한 위키사이트 (wiki.autoworkers.ai). 용어사전/Q&A/꿀팁/일별정리 포함</div>
+        <div class="term-source">3/18</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        오토워커 1기 수강생들의 카톡방 대화 내용을 자동 분석해서 정리한 웹사이트입니다. 용어사전, 자주묻는질문, 꿀팁 등을 검색할 수 있어서 벽타기(과거 대화 읽기) 없이 핵심 정보를 바로 찾을 수 있습니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -727,7 +630,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        크롬 브라우저에 설치하는 확장프로그램입니다. 텍스트나 이미지를 넣으면 자동으로 영상을 만들어주는 도구로, 별도 프로그램 설치 없이 브라우저에서 바로 영상 제작이 가능합니다.
+        크롬 브라우저에 설치하는 확장프로그램으로, 텍스트나 이미지를 넣으면 자동으로 영상을 만들어주는 도구입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -739,7 +642,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI 도구들을 활용해서 유튜브 영상을 자동으로 만드는 사람, 또는 그 전체 과정을 말합니다. 대본 작성 → 이미지 생성 → 음성(TTS) 생성 → 영상 편집까지 AI가 대부분을 자동화합니다. 이 강의의 핵심 목표입니다.
+        AI 도구들을 활용해서 유튜브 영상을 자동으로 만드는 사람, 또는 그 전체 과정을 말합니다. 대본 작성 → 이미지 생성 → 음성 생성 → 영상 편집까지 AI가 자동화합니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -751,11 +654,13 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        구글이 만든 무료 이미지 스타일 변환 도구입니다. 사진이나 이미지를 넣으면 다른 스타일(일러스트, 수채화, 만화풍 등)로 바꿔줍니다. 무료라서 이미지 제작 비용을 아낄 수 있습니다.
+        구글이 만든 무료 이미지 스타일 변환 도구입니다. 사진을 일러스트, 수채화, 만화풍 등으로 바꿔줍니다. 무료라서 이미지 제작 비용을 아낄 수 있습니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-j">ㅈ</div>
+<!-- ㅈ -->
+<div class="section-title term-anchor" id="term-j"></div>
+<div class="section-title">ㅈ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -765,11 +670,13 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI 기반 검색/대화 도구로, 궁금한 것을 물어보면 AI가 인터넷을 검색해서 정리된 답변을 해줍니다. 구글 검색처럼 링크를 하나하나 클릭할 필요 없이, AI가 여러 출처를 종합해서 깔끔하게 정리해줍니다.
+        AI 기반 검색/대화 도구로, 궁금한 것을 물어보면 AI가 인터넷을 검색해서 정리된 답변을 해줍니다. 구글 검색처럼 링크를 하나하나 클릭할 필요 없이 AI가 종합 정리해줍니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-ch">ㅊ</div>
+<!-- ㅊ -->
+<div class="section-title term-anchor" id="term-ch"></div>
+<div class="section-title">ㅊ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -779,7 +686,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        디하클(디지털 하이클래스)의 재미있는 별명입니다. '캄보디아'와 '디하클'의 발음을 합쳐서 수강생들이 장난스럽게 부르는 애칭입니다.
+        디하클(디지털 하이클래스)의 재미있는 별명입니다. '캄보디아'와 '디하클'의 발음을 합친 애칭입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -791,25 +698,29 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        틱톡을 만든 회사(바이트댄스)에서 만든 무료 영상 편집 앱입니다. 스마트폰이나 PC에서 영상 자르기, 자막 넣기, 효과 추가 등을 쉽게 할 수 있어서 초보자도 많이 사용합니다. 프리미어 프로 같은 전문 도구보다 훨씬 쉽습니다.
+        틱톡 회사(바이트댄스)에서 만든 무료 영상 편집 앱입니다. 영상 자르기, 자막 넣기, 효과 추가 등을 쉽게 할 수 있어서 초보자도 많이 사용합니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-k">ㅋ</div>
+<!-- ㅋ -->
+<div class="section-title term-anchor" id="term-k"></div>
+<div class="section-title">ㅋ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
-        <div class="term-name">클로드코드</div>
+        <div class="term-name">클로드코드 (Claude Code)</div>
         <div class="term-desc">AI 코딩 도구. 터미널/데스크탑앱에서 사용. 최근 업데이트로 앱에서도 사용 가능</div>
         <div class="term-source">3/17</div>
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI가 코딩을 대신 해주는 도구입니다. 터미널(검은 화면)이나 데스크탑 앱에서 "유튜브 자동화 프로그램 만들어줘"라고 한국어로 말하면 AI가 코드를 작성하고 실행합니다. 최근 업데이트로 모바일에서도 PC의 클로드코드를 원격 제어할 수 있게 되었습니다. 오토워커 수업의 핵심 도구입니다.
+        AI가 코딩을 대신 해주는 도구입니다. "유튜브 자동화 프로그램 만들어줘"라고 한국어로 말하면 AI가 코드를 작성하고 실행합니다. 모바일에서도 PC의 클로드코드를 원격 제어할 수 있습니다. 오토워커 수업의 핵심 도구입니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-t">ㅌ</div>
+<!-- ㅌ -->
+<div class="section-title term-anchor" id="term-t"></div>
+<div class="section-title">ㅌ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -819,11 +730,13 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        대본을 입력하면 완성된 유튜브 영상까지 자동으로 만들어주는 프로그램입니다. 노씨가 개발하고 대국밥 조교가 기능을 확장했습니다. 대본 → 이미지 → 음성 → 최종 영상까지 한 번에 처리됩니다. 오토워커 수강생들이 사용하는 핵심 도구입니다.
+        대본을 입력하면 완성된 유튜브 영상까지 자동으로 만들어주는 프로그램입니다. 대본 → 이미지 → 음성 → 최종 영상까지 한 번에 처리됩니다. 오토워커 수강생들의 핵심 도구입니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-p">ㅍ</div>
+<!-- ㅍ -->
+<div class="section-title term-anchor" id="term-p"></div>
+<div class="section-title">ㅍ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -833,7 +746,31 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        세계에서 가장 많이 쓰이는 프로그래밍 언어 중 하나입니다. 하지만 오토워커에서는 우리가 직접 파이썬을 쓰는 게 아니라, 클로드 AI에게 시키면 클로드가 파이썬으로 프로그램을 만듭니다. 마치 영어를 몰라도 통역사에게 시키면 되는 것처럼, 코딩을 몰라도 AI가 대신 해줍니다.
+        세계에서 가장 많이 쓰이는 프로그래밍 언어 중 하나입니다. 오토워커에서는 우리가 직접 쓰는 게 아니라 클로드 AI에게 시키면 클로드가 파이썬으로 프로그램을 만듭니다. 마치 영어를 몰라도 통역사에게 시키면 되는 것처럼, 코딩을 몰라도 AI가 대신 해줍니다.
+    </div></div>
+</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">팟플레이어</div>
+        <div class="term-desc">무료 동영상 플레이어. 윈도우 기본 플레이어 코덱 문제 시 대안</div>
+        <div class="term-source">3/19</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        카카오에서 배포하는 무료 동영상 재생 프로그램입니다. 윈도우 기본 플레이어에서 영상이 안 나올 때 팟플레이어를 설치하면 거의 모든 영상을 문제없이 볼 수 있습니다.
+    </div></div>
+</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">포터블 모니터</div>
+        <div class="term-desc">노트북에 연결하는 보조 모니터. USB-C 케이블로 간편 연결</div>
+        <div class="term-source">3/18</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        노트북 화면이 작아서 불편할 때 옆에 추가로 연결하는 보조 모니터입니다. USB-C 케이블 하나만 꽂으면 되고, 들고 다닐 수 있어서 카페에서도 듀얼 모니터로 작업할 수 있습니다. 컴퓨터를 새로 사는 것보다 저렴하게 작업 효율을 높이는 방법입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -845,7 +782,19 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        구글 제미나이 AI의 영상 생성 기능입니다. 텍스트 설명이나 이미지를 입력하면 AI가 동영상을 만들어줍니다. 제미나이 울트라 요금제(월 36만원)에서 무제한 사용 가능합니다.
+        구글 제미나이 AI의 영상 생성 기능입니다. 텍스트 설명이나 이미지를 입력하면 AI가 동영상을 만들어줍니다. 제미나이 울트라 요금제에서 무제한 사용 가능합니다.
+    </div></div>
+</div>
+<div class="term-item searchable" onclick="this.classList.toggle('open')">
+    <div class="term-row">
+        <span class="term-toggle">&#9654;</span>
+        <div class="term-name">프로젝트 (Project)</div>
+        <div class="term-desc">클로드에서 반복적으로 쓰는 프롬프트를 저장해놓고 재사용하는 기능</div>
+        <div class="term-source">3/19</div>
+    </div>
+    <div class="term-detail"><div class="term-detail-inner">
+        <div class="detail-label">쉽게 말하면</div>
+        클로드에서 자주 쓰는 지시(프롬프트)를 저장해두고 필요할 때 꺼내 쓰는 기능입니다. 마치 자주 쓰는 문자 메시지를 '자주 쓰는 문구'에 저장해놓는 것처럼, 매번 같은 말을 다시 쓸 필요 없이 저장된 프롬프트를 불러올 수 있습니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -857,11 +806,13 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI에게 하는 지시(프롬프트)를 여러 단계로 연결하는 방법입니다. 마치 공장의 컨베이어 벨트처럼, 앞 단계의 결과물이 다음 단계의 재료가 됩니다. 예: ① 주제 정하기 → ② 대본 작성 → ③ 이미지 프롬프트 추출 → ④ 이미지 생성. 각 단계가 자동으로 이어져서 효율적입니다.
+        AI에게 하는 지시(프롬프트)를 여러 단계로 연결하는 방법입니다. 마치 공장의 컨베이어 벨트처럼, 앞 단계의 결과물이 다음 단계의 재료가 됩니다. 예: 1. 주제 정하기 → 2. 대본 작성 → 3. 이미지 생성.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-h">ㅎ</div>
+<!-- ㅎ -->
+<div class="section-title term-anchor" id="term-h"></div>
+<div class="section-title">ㅎ</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -871,7 +822,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI로 만든 음악을 유통한 뒤, 유튜브에서 "이 음악은 저작권 침해입니다"라는 경고가 뜰 수 있습니다. 이때 "이거 제가 만든 음악이에요"라고 증명하는 절차가 화이트리스트입니다. 음원 유통 사이트의 캡쳐 화면을 첨부해서 인증하면 됩니다.
+        AI로 만든 음악을 유통한 뒤, 유튜브에서 "이 음악은 저작권 침해입니다"라는 경고가 뜰 수 있습니다. 이때 "이거 제가 만든 음악이에요"라고 증명하는 절차입니다. 음원 유통 사이트 캡쳐를 첨부해서 인증합니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -883,11 +834,13 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        웹페이지를 만드는 기본 언어입니다. 지금 보고 계신 이 위키 페이지도 HTML로 만들어졌습니다. 클로드에게 "PPT처럼 예쁘게 정리해줘"라고 하면 HTML로 멋진 웹페이지를 만들어줍니다. 코드를 직접 쓸 필요 없이 클로드가 대신 작성합니다.
+        웹페이지를 만드는 기본 언어입니다. 이 위키 페이지도 HTML로 만들어졌습니다. 클로드에게 "PPT처럼 예쁘게 정리해줘"라고 하면 HTML로 웹페이지를 만들어줍니다.
     </div></div>
 </div>
 
-<div class="section-title term-anchor" id="term-en">영문</div>
+<!-- 영문 -->
+<div class="section-title term-anchor" id="term-en"></div>
+<div class="section-title">A~Z</div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
@@ -897,7 +850,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI가 한 번의 대화에서 기억할 수 있는 텍스트 양입니다. 책으로 치면 AI가 한 번에 읽을 수 있는 페이지 수와 같습니다. 이 양이 클수록 더 긴 대본이나 복잡한 작업을 한 번에 처리할 수 있습니다. 클로드는 이 양이 매우 커서 긴 작업에 유리합니다.
+        AI가 한 번의 대화에서 기억할 수 있는 텍스트 양입니다. 책으로 치면 AI가 한 번에 읽을 수 있는 페이지 수와 같습니다. 이 양이 클수록 더 긴 대본이나 복잡한 작업을 한 번에 처리할 수 있습니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -909,19 +862,19 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        클릭률(Click Through Rate)의 줄임말입니다. 유튜브에서 내 영상 썸네일을 본 사람 중 실제로 클릭한 비율을 뜻합니다. 예: 100명이 썸네일을 보고 5명이 클릭했다면 CTR은 5%입니다. 높을수록 썸네일과 제목이 잘 만들어졌다는 뜻입니다. 유튜브 성장의 핵심 지표 중 하나입니다.
+        유튜브에서 내 영상 썸네일을 본 사람 중 실제로 클릭한 비율입니다. 예: 100명이 보고 5명이 클릭하면 CTR 5%. 높을수록 썸네일과 제목이 잘 만들어졌다는 뜻입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
     <div class="term-row">
         <span class="term-toggle">&#9654;</span>
-        <div class="term-name">ElevenLabs</div>
+        <div class="term-name">ElevenLabs (일레븐랩스)</div>
         <div class="term-desc">TTS(텍스트→음성) 서비스. 목소리 클론 가능</div>
         <div class="term-source">3/17</div>
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        AI가 텍스트를 사람 목소리처럼 읽어주는(TTS) 서비스입니다. 대본을 입력하면 자연스러운 음성 파일이 만들어집니다. 내 목소리를 30분 이상 녹음해서 학습시키면 내 목소리와 똑같은 AI 음성도 만들 수 있습니다. 오토워커에서 영상 내레이션 제작에 핵심적으로 사용됩니다.
+        AI가 텍스트를 사람 목소리처럼 읽어주는 서비스입니다. 내 목소리를 30분 이상 녹음해서 학습시키면 내 목소리와 똑같은 AI 음성도 만들 수 있습니다. 영상 내레이션 제작의 핵심 도구입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -933,7 +886,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        중국 콰이쇼우에서 만든 이미지→영상 변환 AI 서비스입니다. 사진 한 장을 넣으면 그 이미지가 움직이는 동영상으로 바뀝니다. 가격은 seedance와 Sora 사이의 중간 수준입니다.
+        사진 한 장을 넣으면 움직이는 동영상으로 바꿔주는 AI 서비스입니다. 가격은 seedance와 Sora 사이의 중간 수준입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -945,7 +898,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        Model Context Protocol의 약자로, AI가 외부 도구나 데이터에 접근할 수 있게 해주는 연결 규격입니다. 마치 USB가 다양한 기기를 컴퓨터에 연결해주는 것처럼, MCP는 AI를 캘린더, 파일, 웹사이트 등 다양한 서비스에 연결해줍니다. 이를 통해 AI가 더 많은 일을 할 수 있게 됩니다.
+        AI가 외부 도구나 데이터에 접근할 수 있게 해주는 연결 규격입니다. 마치 USB가 다양한 기기를 컴퓨터에 연결해주는 것처럼, MCP는 AI를 캘린더, 파일, 웹사이트 등 다양한 서비스에 연결해줍니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -957,7 +910,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        Revenue Per Mille의 약자로, 유튜브에서 영상이 1,000번 재생될 때마다 벌어들이는 수익입니다. 예: RPM이 $3이면 영상이 1,000번 조회될 때마다 약 4,000원을 법니다. 채널의 수익성을 판단하는 핵심 지표입니다. 주제, 나라, 시청자에 따라 크게 달라집니다.
+        유튜브에서 영상이 1,000번 재생될 때마다 벌어들이는 수익입니다. 예: RPM이 $3이면 1,000번 조회당 약 4,000원. 채널 수익성 판단의 핵심 지표입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -969,7 +922,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        이미지를 동영상으로 변환해주는 AI 서비스입니다. 사진 한 장을 넣으면 움직이는 영상이 됩니다. 현재 이미지→영상 서비스 중 가장 저렴한 가격이 장점이라서, 비용을 아끼고 싶을 때 좋은 선택입니다.
+        이미지를 동영상으로 변환해주는 AI 서비스입니다. 현재 이미지→영상 서비스 중 가장 저렴한 가격이 장점입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -981,7 +934,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        ChatGPT를 만든 OpenAI의 영상 생성 AI입니다. 텍스트나 이미지로부터 고품질 동영상을 만들 수 있습니다. 품질은 좋지만 비용이 비교적 높은 편이라, 가성비를 따질 때는 seedance나 Kling을 먼저 고려합니다.
+        ChatGPT를 만든 OpenAI의 영상 생성 AI입니다. 품질은 좋지만 비용이 비교적 높은 편입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -993,7 +946,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        SubRip Text의 약자로, 영상 자막 파일 형식입니다. "몇 초~몇 초에 이 자막을 보여줘"라는 시간 정보와 자막 텍스트가 들어있는 파일입니다. 캡컷이나 브루 같은 편집 프로그램에서 SRT 파일을 불러오면 자막이 자동으로 배치됩니다.
+        영상 자막 파일 형식입니다. "몇 초~몇 초에 이 자막을 보여줘"라는 시간 정보와 자막 텍스트가 들어있습니다. 캡컷이나 브루에서 불러올 수 있습니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -1005,7 +958,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        Text-to-Speech의 약자로, 글자를 음성으로 변환하는 기술입니다. 대본을 입력하면 AI가 사람처럼 자연스럽게 읽어주는 음성 파일을 만들어줍니다. 직접 녹음하지 않아도 나레이션이 가능해집니다. ElevenLabs가 대표적인 TTS 서비스입니다.
+        글자를 음성으로 변환하는 기술입니다. 대본을 입력하면 AI가 사람처럼 자연스럽게 읽어주는 음성 파일을 만들어줍니다. ElevenLabs가 대표적인 TTS 서비스입니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -1017,7 +970,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        구글 제미나이의 영상 생성 AI입니다. 텍스트나 이미지에서 동영상을 만들어줍니다. 제미나이 울트라 요금제(월 36만원, 3개월 결제 시 월 18만원)에서 무제한으로 사용할 수 있어서, 영상을 많이 만드는 분에게는 API 비용보다 저렴할 수 있습니다.
+        구글 제미나이의 영상 생성 AI입니다. 제미나이 울트라 요금제(월 36만원, 3개월 결제 시 월 18만원)에서 무제한 사용 가능합니다.
     </div></div>
 </div>
 <div class="term-item searchable" onclick="this.classList.toggle('open')">
@@ -1029,7 +982,7 @@
     </div>
     <div class="term-detail"><div class="term-detail-inner">
         <div class="detail-label">쉽게 말하면</div>
-        Visual Studio Code의 줄임말로, 코드를 보고 편집하는 프로그램입니다. 마이크로소프트가 만들었으며 무료입니다. 워드(Word)가 문서용 편집기라면 VSCode는 코드용 편집기입니다. 오토워커 수업에서 파일을 확인하고 관리하는 용도로 사용할 예정입니다.
+        마이크로소프트가 만든 무료 코드 편집기입니다. 워드(Word)가 문서용이라면 VSCode는 코드용 편집기입니다. 오토워커 수업에서 파일을 확인하고 관리하는 용도로 사용할 예정입니다.
     </div></div>
 </div>
 
@@ -1040,353 +993,321 @@
 
 <div class="section-title">강의/커리큘럼</div>
 
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>목요일 강의 듣고 바로 프로그램 사용해서 영상 올려볼 수 있나요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        네, 그날 바로 프로그램 사용해볼 거예요. 영상도 바로 올리는게 목표
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>목요일 강의 듣고 바로 프로그램 사용해서 영상 올려볼 수 있나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">네, 그날 바로 프로그램 사용해볼 거예요. 영상도 바로 올리는게 목표<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>목요일 정규강의 몇 시간?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        5시간 내로 무조건 끝낼 것. 부족하면 늦게까지 남아서 도와줌
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>목요일 정규강의 몇 시간?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">5시간 내로 무조건 끝낼 것. 부족하면 늦게까지 남아서 도와줌<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>대본 프롬프트도 주시나요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        같이 만들 거예요. 1주차의 핵심. 실제로 일 95만원, 24시간 60만 조회수 나온 대본 스킬도 드리고 변형하는 법도 배울 것
-        <div class="source">노씨 (사담방/프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>대본 프롬프트도 주시나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">같이 만들 거예요. 1주차의 핵심. 실제로 일 95만원, 24시간 60만 조회수 나온 대본 스킬도 드리고 변형하는 법도 배울 것<div class="source">노씨 (사담방/프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>강의 들으면 웹사이트/앱 만들 수 있는 기본기가 되나요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        앱은 따로 안배우고, 웹사이트 혼자 쓰는 용도로는 기본기가 됨. 실제 서비스화는 운영/인프라 추가 필요
-        <div class="source">노씨 (사담방 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>강의 들으면 웹사이트/앱 만들 수 있는 기본기가 되나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">앱은 따로 안배우고, 웹사이트 혼자 쓰는 용도로는 기본기가 됨. 실제 서비스화는 운영/인프라 추가 필요<div class="source">노씨 (사담방 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>앵콜강의 다시보기?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        카페에 업로드됨 (<a href="https://cafe.naver.com/autoworker1/8" target="_blank" rel="noopener">cafe.naver.com/autoworker1/8</a>)
-        <div class="source">프리미엄반 3/17</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>앵콜강의 다시보기?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">카페에 업로드됨 (<a href="https://cafe.naver.com/autoworker1/8" target="_blank">cafe.naver.com/autoworker1/8</a>)<div class="source">프리미엄반 3/17</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>사담방이랑 프리미엄방 차이?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        프리미엄방은 프리미엄 강의 관련 질문용. 그 외 질문은 사담방에서
-        <div class="source">둘리 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>사담방이랑 프리미엄방 차이?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">프리미엄방은 프리미엄 강의 관련 질문용. 그 외 질문은 사담방에서<div class="source">둘리 (프리미엄반 3/17)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>1주차 강의 시간/구성은?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">목요일 저녁 7시부터 5시간. 못 따라오면 새벽 3시까지 도와드림. 토요일 2시~5시 보충수업(1주차 복습). 모든 강의 VOD 제공. 1주차는 스토리형 대본부터.<div class="source">노씨 (사담방 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>파이썬 설치 필요한가요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">1주차에는 파이썬 과정 없음. 2주차부터 파이썬 들어갈 예정. 갈수록 더 재미있어짐.<div class="source">노씨 (사담방 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>코딩 몰라도 되나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">코딩 배우는 강의가 아니라 수익화 강의. 코딩 1줄도 몰라도 됨. 원리 정도만 이해하면 충분. 유튜브 흐름 익히는 게 더 중요.<div class="source">주원 (사담방 3/19)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>프리미엄반으로 변경 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">가능. 강의 중에도 변경 가능. 정규 듣다가 프반으로 월반하는 분들도 많음.<div class="source">사담방 3/19</div></div></div>
 </div>
 
 <div class="section-title">비용/결제</div>
 
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>유지비(월9.9만원) 이후 상승 가능성?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        갑자기 두배가 되진 않을 것. 조금씩 조정될 수 있음. 비용 부담이 안되어야 많이 만들어볼 수 있으니까
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>유지비(월9.9만원) 이후 상승 가능성?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">갑자기 두배가 되진 않을 것. 조금씩 조정될 수 있음. 비용 부담이 안되어야 많이 만들어볼 수 있으니까<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>오토워커 3개월 무료는 언제부터?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        강의 시작일부터 3개월
-        <div class="source">노씨 (프리미엄반 3/18)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>오토워커 3개월 무료는 언제부터?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">강의 시작일부터 3개월<div class="source">노씨 (프리미엄반 3/18)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>일레븐랩스 개인 구독 vs 사이트 통해서?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        개인 구독보다 사이트 통해서 하는 게 좋습니다.<br>
-        <b>1)</b> 대량 구매로 단가가 더 저렴합니다.<br>
-        <b>2)</b> 개인 구독은 100만큼 구매 후 50만 쓰고 한 달이 지나면 나머지 50은 사라지지만, 사이트를 통하면 쓴 만큼만 차감되어 낭비가 없습니다.
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>일레븐랩스 개인 구독 vs 사이트 통해서?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">개인 구독보다 사이트 통해서 하는 게 좋습니다.<br>1. 대량 구매로 단가가 더 저렴합니다.<br>2. 개인 구독은 100만큼 구매 후 50만 쓰고 한 달이 지나면 나머지 50은 사라지지만, 사이트를 통하면 쓴 만큼만 차감되어 낭비가 없습니다.<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>클로드 Pro 결제해야 하나요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        네, 클로드 가입/결제 필요. 상세 안내는 3/18 오후 2시에 공유 예정
-        <div class="source">노씨 (프리미엄반 3/18)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드 Pro 결제해야 하나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">네, 클로드 가입/결제 필요. 상세 안내는 3/18 오후 2시에 공유 예정<div class="source">노씨 (프리미엄반 3/18)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>젠스파크 쓰는데 따로 클로드 결제해야 되나요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        네, 따로 결제 필요
-        <div class="source">미줌마파워 (프리미엄반 3/18)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>젠스파크 쓰는데 따로 클로드 결제해야 되나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">네, 따로 결제 필요<div class="source">미줌마파워 (프리미엄반 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드 Pro vs Max 뭐 결제해야?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">Pro($20)부터 시작. 속도 붙으면 그때 Max($110). 처음부터 무리할 필요 없음. Pro에서도 오퍼스 사용 가능. 만들 때만 opus, 수정은 sonet으로 하면 적당.<div class="source">노씨 (사담방/프리미엄반 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드 연간 결제 vs 월간?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">AI 발전속도가 너무 빨라서 월간 추천.<div class="source">노씨 (프리미엄반 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>크레딧 이월 되나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">"한도"가 이월되지 않는 것이고, 크레딧은 쓴 만큼만 나가므로 안 쓰면 비용 없음.<div class="source">노씨 (사담방 3/19)</div></div></div>
 </div>
 
 <div class="section-title">기능/기술</div>
 
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>영어 대본 입력시 영어 음성 가능?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        현재 영어 대본은 지원하지 않습니다. 모든 외국어가 미지원 상태이며, 영어/일본어는 다른 핵심 기능을 먼저 반영한 후 추가될 예정입니다.
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>영어 대본 입력시 영어 음성 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">현재 영어 대본은 지원하지 않습니다. 모든 외국어가 미지원 상태이며, 영어/일본어는 다른 핵심 기능을 먼저 반영한 후 추가될 예정입니다.<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>오토워커 작동 플로우는 어떻게 되나요? 어디까지 자동이고 어디서 수동 개입이 필요한가요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        <b>① 대본 만들기</b> → 클로드 스킬로 자동화 (자동)<br>
-        <b>② 튜브워커에 대본 넣기</b> → 이미지 선택 등은 수동으로 조정 가능 (반자동)<br>
-        <b>③ CapCut 결과물 확인</b> → 다운로드 후 동영상 추출, 세부사항 편집이 필요하면 수동 편집 (수동)<br>
-        <b>④ 유튜브 업로드</b> → 명령어로 업로드 자동화 (자동)<br><br>
-        즉, 대본 생성과 업로드는 자동이고, 중간의 이미지 선택과 최종 편집 단계에서 사용자가 원하는 대로 조정할 수 있습니다.
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>오토워커 작동 플로우는 어떻게 되나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">1. <b>대본 만들기</b> → 클로드 스킬로 자동화 (자동)<br>2. <b>튜브워커에 대본 넣기</b> → 이미지 선택 등은 수동으로 조정 가능 (반자동)<br>3. <b>CapCut 결과물 확인</b> → 다운로드 후 동영상 추출, 세부사항 편집이 필요하면 수동 편집 (수동)<br>4. <b>유튜브 업로드</b> → 명령어로 업로드 자동화 (자동)<br><br>즉, 대본 생성과 업로드는 자동이고, 중간의 이미지 선택과 최종 편집 단계에서 사용자가 원하는 대로 조정할 수 있습니다.<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>이미지 프롬프트 사용자별 차별화/일관성?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        <b>차별화:</b> 개인이 커스텀 이미지 스타일을 직접 만들 수 있습니다. 첫 강의에서 방법을 안내할 예정입니다.<br>
-        <b>일관성:</b> 채널 마스코트/캐릭터의 일관성 유지 기능은 우선순위를 높여서 추가 예정입니다. 고정 스타일(서피스)을 설정해두면 매번 비슷한 톤의 이미지를 생성할 수 있습니다.
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>이미지 프롬프트 사용자별 차별화/일관성?</div>
+    <div class="qa-answer"><div class="qa-answer-inner"><b>차별화:</b> 개인이 커스텀 이미지 스타일을 직접 만들 수 있습니다. 첫 강의에서 방법을 안내할 예정입니다.<br><b>일관성:</b> 채널 마스코트/캐릭터의 일관성 유지 기능은 우선순위를 높여서 추가 예정입니다. 고정 스타일(서피스)을 설정해두면 매번 비슷한 톤의 이미지를 생성할 수 있습니다.<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>자기 목소리 클론해서 TTS 가능?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        네, 가능합니다! ElevenLabs에서 자기 목소리를 클론해서 TTS로 사용할 수 있으며, 고유한 voice_id가 부여됩니다.<br><br>
-        <b>Professional Voice Clone</b> — 최소 30분 분량의 깨끗한 오디오가 필요하지만, 가장 리얼한 복제 품질입니다. ElevenLabs Voice Lab에서 생성할 수 있습니다.<br><br>
-        <b>Instant Voice Clone</b> — 짧은 샘플로도 빠르게 만들 수 있지만 품질은 Professional보다 낮습니다. 테스트용으로 먼저 시도해보기 좋습니다.
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>자기 목소리 클론해서 TTS 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">네, 가능합니다! ElevenLabs에서 자기 목소리를 클론해서 TTS로 사용할 수 있으며, 고유한 voice_id가 부여됩니다.<br>- <b>Professional Voice Clone</b> — 최소 30분 분량의 깨끗한 오디오 필요. 가장 리얼한 복제 품질.<br>- <b>Instant Voice Clone</b> — 짧은 샘플로 빠르게 만들 수 있지만 품질은 낮음. 테스트용으로 먼저 시도해보기 좋음.<br>- ElevenLabs Voice Lab에서 생성 가능.<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>직접 녹음한 mp3+srt로 영상 만들기?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        불가. 일레븐랩스 TTS 통해서만 가능
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>직접 녹음한 mp3+srt로 영상 만들기?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">불가. 일레븐랩스 TTS 통해서만 가능<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>context window는 플랜 업그레이드하면 생기는 건가요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        원래 있는건데, 터미널에서 보이게끔 세팅한 것. cc-statusline 플러그인으로 가능
-        <div class="source">노씨 + Miraflores (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>context window는 플랜 업그레이드하면 생기는 건가요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">원래 있는건데, 터미널에서 보이게끔 세팅한 것. cc-statusline 플러그인으로 가능<div class="source">노씨 + Miraflores (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>클로드코드 vs 안티그래비티?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        안티는 뷰어처럼 쓰고 클로드 엔진 쓰는게 가장 좋음. 안티에서도 클로드 쓸 수 있으니 크게 상관없음
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드코드 vs 안티그래비티?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">안티는 뷰어처럼 쓰고 클로드 엔진 쓰는게 가장 좋음. 안티에서도 클로드 쓸 수 있으니 크게 상관없음<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>클로드코드 4채널 운용 가능?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        가능. 다만 첫주차부터는 어렵고 7주차 끝날 때쯤이면 다양한 채널 가능. 한채널당 힘을 너무 쏟지 않아야 함
-        <div class="source">노씨 (프리미엄반 3/18)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드코드 4채널 운용 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">가능. 다만 첫주차부터는 어렵고 7주차 끝날 때쯤이면 다양한 채널 가능. 한채널당 힘을 너무 쏟지 않아야 함<div class="source">노씨 (프리미엄반 3/18)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>PC 클로드코드를 모바일로 제어 가능?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        가능. 최근 업데이트됨. 다만 PC가 켜져있어야 함
-        <div class="source">노씨 (프리미엄반 3/18)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>PC 클로드코드를 모바일로 제어 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">가능. 최근 업데이트됨. 다만 PC가 켜져있어야 함<div class="source">노씨 (프리미엄반 3/18)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>클로드코드에서 context 사용량을 실시간으로 보려면?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        클로드코드 터미널 하단에 모델명, context 사용량(%), 프로젝트명을 실시간으로 표시하는 기능입니다.<br><br>
-        <b>설정 방법:</b> 클로드코드 터미널에서 아래 명령어 입력<br>
-        <code>claude config set --global statusLine enabled</code><br><br>
-        또는 <code>/config</code> 입력 후 statusLine을 enabled로 변경하면 됩니다.<br><br>
-        <b>참고:</b> 이 기능은 클로드코드(터미널)에서만 가능하며, 클로드 데스크탑 앱(일반 대화)에서는 지원되지 않습니다.
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드코드에서 context 사용량을 실시간으로 보려면?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">클로드코드 터미널 하단에 모델명, context 사용량(%), 프로젝트명을 실시간 표시하는 기능입니다.<br>- <b>설정 방법:</b> <code>claude config set --global statusLine enabled</code> 명령어 입력, 또는 <code>/config</code>에서 statusLine을 enabled로 변경<br>- <b>참고:</b> 클로드코드(터미널)에서만 가능. 클로드 데스크탑 앱(일반 대화)에서는 미지원.<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>안티그래비티 vs VSCode 차이?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">둘 다 IDE(파일 뷰어). 크롬/엣지처럼 인터넷 브라우저 종류가 다른 것과 같음. 취향 차이. 수업은 VSCode로 진행.<div class="source">노씨 (사담방 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드에서 영상 분석 가능한가요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">클로드는 파이썬 코드를 장착해서 동작하므로 다 됩니다. 실제 영상 분석은 제미나이 API 활용. 수업 때 설명 예정.<div class="source">노씨 (프리미엄반 3/19)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>타입캐스트 vs 일레븐랩스?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">일레븐랩스가 훨씬 자연스러움. 타입캐스트는 쇼츠에서 강세. 각각 장단점 있어 병행도 가능.<div class="source">김@호(17) (프리미엄반 3/19)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드코드는 전화인증 해야 하나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">새 계정 생성 시 전화인증이 뜰 수 있음. 기존 계정이면 불필요.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드 결제했는데 무료요금제라고 뜹니다</div>
+    <div class="qa-answer"><div class="qa-answer-inner">로그아웃 → 구글 쿠키 삭제 → 재로그인. 또는 컴퓨터 재시작으로 해결.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드 구독 취소 버튼 위치?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">왼쪽 아래 닉네임 클릭 → 설정 → 결제에서 취소 가능.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드 데스크탑 설치 시 오류</div>
+    <div class="qa-answer"><div class="qa-answer-inner">기존 파일 삭제 후 재설치.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>클로드코드에서 매번 yes/no 안 물어보고 자동 실행하는 방법?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">클로드에게 설정 변경 요청 가능. 또는 --dangerously-skip-permissions 옵션 사용.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>VS Code에 클로드코드 플러그인 설치해야 하나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">강의에서 안내 예정.<div class="source">사담방 3/19</div></div></div>
 </div>
 
 <div class="section-title">장비/환경</div>
 
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>노트북으로도 작업 가능?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        충분함. 컴퓨터 쓰는 것들을 다 서버에서 처리
-        <div class="source">노씨 (프리미엄반 3/17)</div>
-    </div></div>
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>노트북으로도 작업 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">충분함. 컴퓨터 쓰는 것들을 다 서버에서 처리<div class="source">노씨 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>그래픽카드는 필수인가요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        대부분 다른 서버에서 처리하므로 컴 사양은 어느 정도면 괜찮음. 로컬에서 돌리는 게 아님
-        <div class="source">쇼츠코인 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>그래픽카드는 필수인가요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">대부분 다른 서버에서 처리하므로 컴 사양은 어느 정도면 괜찮음. 로컬에서 돌리는 게 아님<div class="source">쇼츠코인 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>파이썬이랑 다른 건가요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        파이썬도 사용하지만 우리가 직접 사용하는 건 아니고 클로드가 사용. 우리는 시키기만 하면 됨
-        <div class="source">노씨 (프리미엄반 3/18)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>파이썬이랑 다른 건가요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">파이썬도 사용하지만 우리가 직접 사용하는 건 아니고 클로드가 사용. 우리는 시키기만 하면 됨. 개념만 알면 되고 직접 코드 안짜도 됨<div class="source">노씨 (프리미엄반 3/18)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>컴퓨터 사양이 낮아도 되나요? 최소/권장 사양은?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        강의에서 쓰는 도구 대부분이 클라우드/웹 기반이라 고사양 컴퓨터가 필요 없습니다. <strong>5년 이내 노트북이면 거의 다 됩니다.</strong>
-        <br><br>
-        <strong>최소 사양</strong><br>
-        • OS: Windows 10 64bit / macOS 10.15 이상<br>
-        • RAM: 4GB<br>
-        • 저장공간: 10GB 여유<br>
-        • CPU: Intel i3 / AMD Ryzen 3 급<br>
-        • GPU: 불필요<br>
-        • 인터넷: 필수 (안정적인 연결)
-        <br><br>
-        <strong>권장 사양</strong><br>
-        • OS: Windows 11 / macOS 12 이상<br>
-        • RAM: 8GB<br>
-        • 저장공간: 20GB 이상<br>
-        • CPU: Intel i5 / Apple M1 이상
-        <br><br>
-        <strong>왜 사양이 낮아도 되나요?</strong><br>
-        • 클로드, 튜브워커, 미리캔버스, 제미나이 → 전부 웹/서버에서 처리<br>
-        • 클로드코드 → 서버 쪽 비중이 큼<br>
-        • VSCode → 가벼운 편집기<br>
-        • 캡컷 → 유일하게 로컬 리소스를 쓰지만, 간단한 확인/내보내기 수준
-        <br><br>
-        <strong>새로 사야 한다면?</strong><br>
-        50~80만원대 노트북이면 충분 (RAM 8GB 이상). 삼성 갤럭시북4, LG 그램, 레노버 IdeaPad Slim 5, 맥북 에어 M1(중고) 등.
-        <div class="source">노씨 3/18</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>컴퓨터 사양이 낮아도 되나요? 최소/권장 사양은?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">강의에서 쓰는 도구 대부분이 클라우드/웹 기반이라 고사양 컴퓨터가 필요 없습니다. 5년 이내 노트북이면 거의 다 됩니다.<br><br><b>최소 사양:</b> Windows 10 64bit / macOS 10.15 이상, RAM 4GB, 저장공간 10GB 여유, CPU Intel i3급, GPU 불필요, 인터넷 필수<br><br><b>권장 사양:</b> Windows 11 / macOS 12 이상, RAM 8GB, 저장공간 20GB 이상, CPU Intel i5 / Apple M1 이상<br><br><b>새로 사야 한다면?</b> 50~80만원대 노트북이면 충분 (RAM 8GB 이상). 삼성 갤럭시북4, LG 그램, 레노버 IdeaPad Slim 5, 맥북 에어 M1(중고) 등.<div class="source">노씨 3/18</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>맥미니 M4 깡통으로 롱폼 자동화 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">충분합니다. 썡썡 달릴 겁니다.<div class="source">노씨 (사담방 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>3단계 인증(고급인증) 여러 채널에 같은 얼굴?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">벤 당하면 얼굴 인증 영구 차단. 가능하면 다른 얼굴/번호 사용 권장. 이름/주민번호/전화번호 기록 남음. 채널 삭제 시 다른 계정 채널에도 영향 가능.<div class="source">정@수(아는아이), 둘리, 노씨 (사담방 3/18)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>줌 결제해야 하나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">줌은 무료. 강의 전 공지방에 링크 올려드림. 클릭 참가.<div class="source">둘리 (프리미엄반 3/18)</div></div></div>
 </div>
 
 <div class="section-title">유튜브/채널</div>
 
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>사업자 등록 필요한가요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        일단 안내도 됨. 월수익 500만원쯤 되면 사업자내라고 함
-        <div class="source">노씨 + 쇼츠코인 (프리미엄반 3/17)</div>
-    </div></div>
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>사업자 등록 필요한가요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">일단 안내도 됨. 월수익 500만원쯤 되면 사업자내라고 함<div class="source">노씨 + 쇼츠코인 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>기존 채널에서 댓글 지우고 시작해도 알고리즘 영향?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        안받음. 다만 좀 느려질 수 있음. 백지에서 올리는게 더 빠르고, 쓰던 계정에서 조금 느리다는 것만 인지
-        <div class="source">쇼츠코인 (사담방 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>기존 채널에서 댓글 지우고 시작해도 알고리즘 영향?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">안받음. 다만 좀 느려질 수 있음. 백지에서 올리는게 더 빠르고, 쓰던 계정에서 조금 느리다는 것만 인지<div class="source">쇼츠코인 (사담방 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>채널은 브랜드 계정 vs 개인 계정?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        브랜드 채널 추천
-        <div class="source">비브온 (사담방 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>채널은 브랜드 계정 vs 개인 계정?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">브랜드 채널 추천<div class="source">비브온 (사담방 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>화이트리스트 신청 기준이 있나요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        조회수 수익과 저작권 수익 중 하나만 선택. 유튜브 스튜디오에서 저작권 경고 소명 시 유통 사이트 캡쳐로 인증
-        <div class="source">브리노마드 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>화이트리스트 신청 기준이 있나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">조회수 수익과 저작권 수익 중 하나만 선택. 유튜브 스튜디오에서 저작권 경고 소명 시 유통 사이트 캡쳐로 인증<div class="source">브리노마드 (프리미엄반 3/17)</div></div></div>
 </div>
-<div class="qa-item searchable">
-    <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-        <span class="toggle">&#9654;</span>
-        <span>수노로 만든 노래 자막 번역이 되나요?</span>
-    </div>
-    <div class="qa-answer"><div class="qa-answer-inner">
-        캡컷만 알아먹는 것으로 보임. 위스퍼는 노래라서 어려움
-        <div class="source">진 (프리미엄반 3/17)</div>
-    </div></div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>수노로 만든 노래 자막 번역이 되나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">캡컷만 알아먹는 것으로 보임. 위스퍼는 노래라서 어려움<div class="source">진 (프리미엄반 3/17)</div></div></div>
+</div>
+
+<div class="section-title">그록/이미지 관련</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>그록 유료화됐는데 우리(오토워커)는 괜찮나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">예외 없음. 전세계 동일. 그록 $9 요금제로 하루 50~100개 영상 가능(매일 초기화). 강의에서 상세 안내 예정.<div class="source">노씨 (사담방 3/19)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>그록 유료화로 영상 제작 비용이 올라가나요?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">유료화 이상 추가 과금 불가피. API 중개업체/우회 등 방향 정리 중.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>그록 유료화 → 클링 AI로 대체 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">이미지→영상 저렴한 순서: seedance 1.0 > Kling 2.1 > Sora 2<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>제미나이 울트라도 오토 프로그램에서 사용 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">아직은 그록만 동영상 생성으로 연동됨. 제미나이 울트라는 별도 사용.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="section-title">영상 제작 관련</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>씬마다 이미지를 문장 몇 개당 1개 선택 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">자동으로 대본에 맞춰 생성됨.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>초반 인트로 영상도 그록으로 영상화 자동?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">대국밥 조교가 그록으로 인트로 영상화 자동 기능 추가함.<div class="source">노씨 (사담방 3/19)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>플레이리스트(음악) 자동화 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">현재 불가능. 전혀 다른 방식. 추후 추가 고려 중.<div class="source">노씨 (프리미엄반 3/19)</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>일레븐랩스 오토워커 서버에서 음성 클론도 가능?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">(강의에서 안내 예정)<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>기존 수창 채널에 오토워커 영상 이어서 올려도 되나?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">결이 맞으면 가능. 롱폼은 카테고리 변화가 잘 안 되므로 새로 시작 추천.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>고급인증 안 받은 채널에 롱폼 올려도 되나?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">고급인증 안 하면 15분 초과 롱폼 업로드 불가. 표준+전화번호 인증으로 15분 초과 가능.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>야담채널 영상이 최근 안 보이는 이유?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">야담은 허위컨텐츠로 유튜브가 다 날려버림.<div class="source">사담방 3/19</div></div></div>
+</div>
+
+<div class="qa-item searchable" onclick="this.classList.toggle('open')">
+    <div class="qa-question"><span class="toggle">&#9654;</span>와이파이 바꿔가며 작업해도 유튜브 채널 문제 없나?</div>
+    <div class="qa-answer"><div class="qa-answer-inner">상관없음.<div class="source">노씨 (프리미엄반 3/19)</div></div></div>
 </div>
 
 </div>
@@ -1395,58 +1316,105 @@
 <div class="tab-content" id="tab-tips">
 
 <div class="section-title">도구/환경 설정</div>
+
 <div class="tip-item searchable">
     <div class="tip-title">크롬 사용 추천</div>
     <div class="tip-desc">엣지보다 크롬에서 모든 작업 추천. 구글 기반이라 로그인/확장프로그램 호환 편리</div>
     <div class="tip-source">쇼츠코인+미줌마파워 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">클로드 Pro($20) 결제 권장</div>
     <div class="tip-desc">현재 토큰 두배 기간. 유료가 무료보다 답변 질 차이 있다는 수강생 의견</div>
     <div class="tip-source">프리미엄반 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">클로드코드 데스크탑 앱에서 사용 가능</div>
     <div class="tip-desc">터미널 없이도 됨. 최근 업데이트</div>
     <div class="tip-source">노씨 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">PC 클로드코드를 모바일 앱으로 제어 가능</div>
     <div class="tip-desc">최근 업데이트. PC가 켜져있어야 함</div>
     <div class="tip-source">노씨 3/18</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">Grok + Whisk 미리 가입 필수</div>
-    <div class="tip-desc">튜브워커에서 이미지 자동 생성 시 Grok/Whisk 쿠키를 사용합니다. 크롬에서 구글 계정으로 미리 로그인해두지 않으면 이미지 생성이 안 됩니다. Grok은 x.com/i/grok, Whisk는 labs.google/whisk에서 가입하세요.</div>
+    <div class="tip-desc">튜브워커에서 이미지 자동 생성 시 Grok/Whisk 쿠키를 사용. 크롬에서 구글 계정으로 미리 로그인해두지 않으면 이미지 생성이 안 됨. Grok은 <a href="https://x.com/i/grok" target="_blank">x.com/i/grok</a>, Whisk는 <a href="https://labs.google/whisk" target="_blank">labs.google/whisk</a></div>
     <div class="tip-source">노씨 3/18</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">VSCode 사용 예정</div>
     <div class="tip-desc">수업에서 터미널 대신 코드 뷰어 앱으로 작업</div>
     <div class="tip-source">노씨 3/18</div>
 </div>
 
+<div class="tip-item searchable">
+    <div class="tip-title">클로드 버닝타임 활용</div>
+    <div class="tip-desc">한국시간 03:00~21:00 사용량 2배 (3월 프로모션). 한국 낮시간 = 미국 밤이라 유리</div>
+    <div class="tip-source">임@호(옥빛소리) 3/18</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">클로드 마이크 음성 입력</div>
+    <div class="tip-desc">타자 대신 마이크로 대화하듯 사용 가능. 직원 쓰듯이 음성으로 지시</div>
+    <div class="tip-source">박@미(마리맘) 3/18</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">노션 복사</div>
+    <div class="tip-desc">공유 노션 우측 상단 버튼으로 내 노션에 복사 가능</div>
+    <div class="tip-source">한@철(힉스) 3/18</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">YouTube API 키 저장</div>
+    <div class="tip-desc">채널 탐색기에서 매번 입력하지 않고 클로드에게 "키 저장되게 해달라"고 하면 수정해줌</div>
+    <div class="tip-source">정@수(아는아이) 3/18</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">팟플레이어/스타코덱으로 코덱 문제 해결</div>
+    <div class="tip-desc">윈도우에서 영상 안 나올 때 팟플레이어 설치 또는 스타코덱 설치로 해결</div>
+    <div class="tip-source">이@설(스파이크), 최@현(갓보스) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">캡컷 에셋 볼륨 조절</div>
+    <div class="tip-desc">동영상 자체 음성 제거할 때 에셋>비디오>왼쪽하단 볼륨 낮추기로 해결. ctrl+A 안 누르고 진행</div>
+    <div class="tip-source">둘리 3/19</div>
+</div>
+
 <div class="section-title">비용 절감</div>
+
 <div class="tip-item searchable">
     <div class="tip-title">일레븐랩스는 사이트 통해 사용</div>
     <div class="tip-desc">대량구매 단가 + 쓴만큼만 과금으로 개인 구독보다 유리</div>
     <div class="tip-source">노씨 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">이미지 생성 무료</div>
     <div class="tip-desc">위스크/그록 활용하면 이미지 비용 0원</div>
     <div class="tip-source">프리미엄반 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">그록 무료 제한 우회</div>
     <div class="tip-desc">구글 계정 여러개 돌려서 사용 가능</div>
     <div class="tip-source">둘리 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">제미나이 울트라 요금제</div>
     <div class="tip-desc">36만원/월 (3개월 18만원). VEO3/플로우 영상 무제한. API보다 저렴</div>
     <div class="tip-source">빛나는이야기 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">이미지→영상 저렴한 순서</div>
     <div class="tip-desc">seedance 1.0 > Kling 2.1 > Sora 2</div>
@@ -1454,23 +1422,42 @@
 </div>
 
 <div class="section-title">비용 구조 정리</div>
+
 <table class="cost-table">
-    <thead><tr><th>항목</th><th>비용</th><th>비고</th></tr></thead>
-    <tbody>
-        <tr><td>클로드 Pro</td><td>$20/월</td><td>필수</td></tr>
-        <tr><td>영상 제작 (10분)</td><td>약 2,500원</td><td>TTS 등</td></tr>
-        <tr><td>오토워커 유지비</td><td>3개월 무료 → 월 9.9~14.9만원</td><td>강의 시작일 기준</td></tr>
-        <tr><td>일레븐랩스</td><td>사이트 통해 사용</td><td>쓴만큼만 과금</td></tr>
-        <tr><td>이미지 생성</td><td>무료</td><td>위스크/그록</td></tr>
-    </tbody>
+    <tr><th>항목</th><th>비용</th><th>비고</th></tr>
+    <tr><td>클로드 Pro</td><td>$20/월</td><td>필수</td></tr>
+    <tr><td>영상 제작 (10분)</td><td>약 2,500원</td><td>TTS 등</td></tr>
+    <tr><td>오토워커 유지비</td><td>3개월 무료 → 월 9.9~14.9만원</td><td>강의 시작일 기준</td></tr>
+    <tr><td>일레븐랩스</td><td>사이트 통해 사용</td><td>쓴만큼만 과금</td></tr>
+    <tr><td>이미지 생성</td><td>무료</td><td>위스크/그록</td></tr>
 </table>
 
+<div class="tip-item searchable">
+    <div class="tip-title">안드로이드 앱 결제 할인</div>
+    <div class="tip-desc">웹 결제 22달러(약 3.3만원) vs 안드로이드 앱 3만원 정액</div>
+    <div class="tip-source">정@곡(업고기) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">유튜브 인증용 알뜰폰</div>
+    <div class="tip-desc">100원 알뜰폰 개통으로 채널 고급인증용 번호 확보. 프리티, 에이모바일, 이야기 등</div>
+    <div class="tip-source">정@곡(업고기) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">캡컷 구버전 활용</div>
+    <div class="tip-desc">무료였던 기능이 유료화된 것들을 구버전에서 사용 가능. 버전 다운해서 쓰면 거의 다 구현됨</div>
+    <div class="tip-source">정@곡(업고기) 3/19</div>
+</div>
+
 <div class="section-title">수익화 전략</div>
+
 <div class="tip-item searchable">
     <div class="tip-title">SUNO AI + 음악 playlist 병렬 운영</div>
     <div class="tip-desc">롱폼 자동화와 음악 playlist 생성 자동화 기능을 합치면 이익 극대화</div>
     <div class="tip-source">bnf 3/18</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">디키 유통 활용</div>
     <div class="tip-desc">해외 음원 유통은 디키가 빠르고 쓴만큼만 과금. 국내는 느리고 비싸지만 빠른/쉬운 정산</div>
@@ -1478,42 +1465,109 @@
 </div>
 
 <div class="section-title">유튜브 운영</div>
+
 <div class="tip-item searchable">
     <div class="tip-title">이미지 채널별 차별화 필수</div>
     <div class="tip-desc">같은 이미지 쓰면 절대 안됨. 각 채널마다 반드시 다르게</div>
     <div class="tip-source">노씨 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">알고리즘보다 시청자</div>
     <div class="tip-desc">유튜브 CEO가 "알고리즘이라는 말을 지우고 시청자가 원하는 것으로 바꿔 생각하라"고 함</div>
     <div class="tip-source">쇼츠코인 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">기존 채널 vs 새 채널</div>
-    <div class="tip-desc">알고리즘 박살나도 몇 개 올리면 노출됨. 백지에서 올리는 게 더 빠름. 같은 스타일이면 기존 채널, 새로운 스타일이면 새 채널</div>
+    <div class="tip-desc">알고리즘 박살나도 몇 개 올리면 노출됨. 다만 백지에서 올리는 게 더 빠름. 같은 스타일이면 기존 채널, 새로운 스타일이면 새 채널</div>
     <div class="tip-source">쇼츠코인 3/17</div>
 </div>
 
+<div class="tip-item searchable">
+    <div class="tip-title">채널 2~3개에 1일 1~2영상</div>
+    <div class="tip-desc">수창을 위한 업로드 전략. 1구글계정 1채널이 가장 좋음</div>
+    <div class="tip-source">주원 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">한 채널에 여러 주제 테스트 후 주력 선정</div>
+    <div class="tip-desc">야담/명언/실화 등 올려보고 잘 되는 것을 주력으로. 다만 너무 이질적인 주제는 분리 권장</div>
+    <div class="tip-source">둘리 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">노트북+모니터 27인치 조합 추천</div>
+    <div class="tip-desc">노씨도 27인치 사용. 포터블 모니터도 좋은 대안. 듀얼 모니터로 시야 확보가 작업 효율에 큰 도움</div>
+    <div class="tip-source">노씨 3/18</div>
+</div>
+
 <div class="section-title">자동화/개발</div>
+
 <div class="tip-item searchable">
     <div class="tip-title">컴퓨터 여러대 불필요</div>
     <div class="tip-desc">자동화에 컴퓨터 여러대 필요하다는 건 쇼맨십. 한대로 병렬처리 가능</div>
     <div class="tip-source">노씨 3/18</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">대본 자유도가 핵심</div>
     <div class="tip-desc">사이트 자동화보다 직접 클로드로 대본 만드는 게 더 다양하고 퀄리티 높음</div>
     <div class="tip-source">노씨 3/18</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">인스타 API 사용 주의</div>
     <div class="tip-desc">인스타에서 API 잘못 쓰면 소프트밴 당할 수 있음</div>
     <div class="tip-source">월억페라리 3/17</div>
 </div>
+
 <div class="tip-item searchable">
     <div class="tip-title">오토플로우 확장프로그램</div>
     <div class="tip-desc">크롬에서 텍스트→영상, 이미지→영상 자동 생성 가능</div>
     <div class="tip-source">장이수 3/17</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">클로드로 영상→이미지 20장 출력</div>
+    <div class="tip-desc">영상 넣고 이미지 출력하는 프로그램을 클로드로 만들 수 있음. 대본+이미지로 영상 분석에 유용</div>
+    <div class="tip-source">이@인(스톤) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">크롬 원격 데스크톱 + 팀뷰어 병행</div>
+    <div class="tip-desc">원격 리부팅해도 재접속 가능(크롬원격 장점) + 파일 복사(팀뷰어 장점). 집+사무실 왔다갔다 작업에 최적</div>
+    <div class="tip-source">함@찬(포유1) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">클로드 opus vs sonnet 사용 전략</div>
+    <div class="tip-desc">sonnet이 해결 못하는 복잡한 문제를 opus가 한번에 해결하는 경우 있음. 복잡한 작업은 opus, 간단한 수정은 sonnet</div>
+    <div class="tip-source">임@호(옥빛소리) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">VSCode 한국어 전환</div>
+    <div class="tip-desc">Ctrl+Shift+P → Configure Display Language → 한국어 선택 → restart</div>
+    <div class="tip-source">박@영(퍼펙트) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">그록 $9 요금제로 하루 50~100개 영상 가능</div>
+    <div class="tip-desc">매일 초기화. 3채널 하루 6개 정도면 충분</div>
+    <div class="tip-source">박@용(접속종료) 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">강의는 노트북, 실습은 데스크탑 분리</div>
+    <div class="tip-desc">듀얼모니터 있는 데스크탑으로 실습하고, 노트북으로 강의 듣기 추천</div>
+    <div class="tip-source">노씨 3/19</div>
+</div>
+
+<div class="tip-item searchable">
+    <div class="tip-title">스킬 내부 들여다보기</div>
+    <div class="tip-desc">결제 후 카테고리 못 정했을 때, 클로드 스킬 내부를 보면 무강에서 배운 내용이 정리되어 있음</div>
+    <div class="tip-source">정@곡(업고기) 3/19</div>
 </div>
 
 </div>
@@ -1522,134 +1576,207 @@
 <div class="tab-content" id="tab-daily">
 
 <div class="daily-nav">
-    <button class="daily-btn active" data-day="0318">3/18 (화)</button>
-    <button class="daily-btn" data-day="0317">3/17 (월)</button>
-    <button class="daily-btn" data-day="0316">3/16 (일)</button>
+    <button class="daily-btn active" data-date="0319-2">3/19 (추가)</button>
+    <button class="daily-btn" data-date="0319">3/19</button>
+    <button class="daily-btn" data-date="0318-2">3/18 (추가)</button>
+    <button class="daily-btn" data-date="0318">3/18</button>
+    <button class="daily-btn" data-date="0317">3/17</button>
+    <button class="daily-btn" data-date="0316">3/16</button>
+</div>
+
+<!-- 3/19 추가 -->
+<div class="daily-content active" data-date="0319-2">
+<div class="daily-summary">
+    <div class="daily-summary-title">2026-03-19 추가분 (09:14~17:27)</div>
+    <div class="daily-summary-desc">사담방 356개 + 프리미엄반 220개 메시지. 그록 유료화 이슈, 클로드 설치/결제 Q&A 다수</div>
+</div>
+
+<div class="daily-section-title">용어/개념</div>
+<div class="daily-item"><span class="label">크롬 원격 데스크톱</span> — 같은 구글 아이디로 PC간 원격 접속. 리부팅해도 재접속 가능</div>
+<div class="daily-item"><span class="label">스펙트럼 생성기</span> — 음악 영상용 오디오 시각화 생성 도구. 아는아이님 개발</div>
+
+<div class="daily-section-title">Q&A</div>
+<div class="daily-item"><span class="label">Q:</span> 클로드코드는 전화인증 해야 하나요? → 새 계정 생성 시 뜰 수 있음</div>
+<div class="daily-item"><span class="label">Q:</span> 그록 유료화됐는데 우리는 어떻게? → 예외 없음. $9 요금제로 하루 50~100개 영상 가능</div>
+<div class="daily-item"><span class="label">Q:</span> 그록 유료화로 비용 올라가나요? → 추가 과금 불가피. 정리 중</div>
+<div class="daily-item"><span class="label">Q:</span> 클로드 결제했는데 무료라고 뜸 → 쿠키 삭제+재로그인 또는 PC 재시작</div>
+<div class="daily-item"><span class="label">Q:</span> 제미나이 울트라도 오토에서 사용 가능? → 아직 그록만 연동</div>
+<div class="daily-item"><span class="label">Q:</span> 기존 수창 채널에 오토워커 영상? → 결이 맞으면 가능, 롱폼은 새로 시작 추천</div>
+<div class="daily-item"><span class="label">Q:</span> 고급인증 안 받으면? → 15분 초과 롱폼 업로드 불가</div>
+<div class="daily-item"><span class="label">Q:</span> 야담채널 안 보이는 이유? → 허위컨텐츠로 유튜브가 다 날려버림</div>
+<div class="daily-item"><span class="label">Q:</span> 플레이리스트 자동화? → 현재 불가능. 추후 고려 중</div>
+
+<div class="daily-section-title">꿀팁</div>
+<div class="daily-item">크롬 원격 데스크톱 + 팀뷰어 병행: 원격 리부팅+파일복사 동시 가능</div>
+<div class="daily-item">클로드 opus vs sonnet: 복잡한 작업은 opus, 간단한 수정은 sonnet</div>
+<div class="daily-item">VSCode 한국어: Ctrl+Shift+P → Configure Display Language</div>
+<div class="daily-item">그록 $9 요금제: 하루 50~100개 영상 가능, 매일 초기화</div>
+<div class="daily-item">강의는 노트북, 실습은 데스크탑으로 분리 추천</div>
+
+<div class="daily-section-title">이슈/에러</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">그록 유료화 (3/19): 무료 영상 생성 중단. $9/월부터 사용 가능. 비용 정리 예정</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">클로드 결제 후 무료 뜨는 문제: 쿠키 삭제+재로그인으로 해결</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">클로드 데스크탑 설치 오류: 기존 파일 삭제 후 재설치</div>
+</div>
+
+<!-- 3/19 -->
+<div class="daily-content" data-date="0319">
+<div class="daily-summary">
+    <div class="daily-summary-title">2026-03-19</div>
+    <div class="daily-summary-desc">사담방 + 프리미엄반 통합. 코딩/도구 질문 다수, 캡컷 이슈</div>
+</div>
+
+<div class="daily-section-title">용어/개념</div>
+<div class="daily-item"><span class="label">스킬(Skill)</span> — 클로드에서 특정 작업 흐름을 미리 설계해놓고 자동화하는 기능</div>
+<div class="daily-item"><span class="label">프로젝트(Project)</span> — 클로드에서 반복 프롬프트 저장/재사용 기능</div>
+<div class="daily-item"><span class="label">팟플레이어</span> — 무료 동영상 플레이어. 코덱 문제 시 대안</div>
+<div class="daily-item"><span class="label">스타코덱</span> — 윈도우 동영상 코덱 패키지</div>
+
+<div class="daily-section-title">Q&A</div>
+<div class="daily-item"><span class="label">Q:</span> 기존 유튜브 채널 vs 새로 만들기? → 기존 채널 그대로 사용 가능</div>
+<div class="daily-item"><span class="label">Q:</span> 노트북 한 대로 가능? → 네, 충분</div>
+<div class="daily-item"><span class="label">Q:</span> 캡컷 로그인 필요? → 무료 기능은 로그인 불필요</div>
+<div class="daily-item"><span class="label">Q:</span> 영상 분석 가능? → 클로드+제미나이 API 활용</div>
+<div class="daily-item"><span class="label">Q:</span> 타입캐스트 vs 일레븐랩스? → 일레븐랩스가 자연스러움, 타입캐스트는 쇼츠 강세</div>
+<div class="daily-item"><span class="label">Q:</span> 코딩 몰라도 되나요? → 코딩 1줄 몰라도 됨, 수익화 강의</div>
+<div class="daily-item"><span class="label">Q:</span> 프반으로 변경 가능? → 강의 중 변경 가능</div>
+
+<div class="daily-section-title">꿀팁</div>
+<div class="daily-item">캡컷 구버전: 유료화된 기능을 구버전에서 무료 사용 가능</div>
+<div class="daily-item">채널 2~3개에 1일 1~2영상, 1구글계정 1채널 추천</div>
+<div class="daily-item">팟플레이어/스타코덱으로 코덱 문제 해결</div>
+<div class="daily-item">클로드로 영상→이미지 20장 출력 가능</div>
+<div class="daily-item">캡컷 에셋 볼륨 조절로 음성 제거</div>
+<div class="daily-item">한 채널에 여러 주제 테스트 후 주력 선정</div>
+
+<div class="daily-section-title">이슈/에러</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">캡컷 로그인 서버 일시 다운 → PC 버전은 로그인 없이 무료 기능 사용 가능</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">VREW 음성 제거 기능 안됨 → 캡컷 에셋 볼륨 조절로 대체</div>
+</div>
+
+<!-- 3/18 추가 -->
+<div class="daily-content" data-date="0318-2">
+<div class="daily-summary">
+    <div class="daily-summary-title">2026-03-18 추가분 (10:12 이후)</div>
+    <div class="daily-summary-desc">포터블 모니터, 3단계 인증, 버닝타임 등 용어/개념 다수 추가</div>
+</div>
+
+<div class="daily-section-title">용어/개념</div>
+<div class="daily-item"><span class="label">포터블 모니터</span> — 노트북에 연결하는 보조 모니터. USB-C 케이블로 간편 연결</div>
+<div class="daily-item"><span class="label">IDE</span> — 코드/파일을 편하게 보는 앱 (VSCode, 안티그래비티, 커서 등)</div>
+<div class="daily-item"><span class="label">오토위키</span> — 카톡방 대화를 정리한 위키사이트 (wiki.autoworkers.ai)</div>
+<div class="daily-item"><span class="label">3단계 인증</span> — 유튜브 고급 기능 사용을 위한 본인 인증 절차</div>
+<div class="daily-item"><span class="label">버닝타임</span> — 클로드 사용량 2배 프로모션 (한국시간 03:00~21:00)</div>
+
+<div class="daily-section-title">Q&A</div>
+<div class="daily-item"><span class="label">Q:</span> 맥미니 M4 깡통으로 롱폼? → 충분. 썡썡 달림</div>
+<div class="daily-item"><span class="label">Q:</span> 1주차 강의 시간? → 목 저녁 7시부터 5시간, 토 보충수업</div>
+<div class="daily-item"><span class="label">Q:</span> 파이썬 설치 필요? → 1주차 없음. 2주차부터</div>
+<div class="daily-item"><span class="label">Q:</span> 클로드 Pro vs Max? → Pro($20)부터 시작 권장</div>
+<div class="daily-item"><span class="label">Q:</span> 3단계 인증 여러 채널에 같은 얼굴? → 벤 시 영구 차단, 다른 얼굴 권장</div>
+<div class="daily-item"><span class="label">Q:</span> 크레딧 이월? → 한도가 이월 안 되는 것, 쓴만큼만 과금</div>
+<div class="daily-item"><span class="label">Q:</span> 컴퓨터 사양? → 최소 RAM 8GB, 권장 16GB</div>
+
+<div class="daily-section-title">꿀팁</div>
+<div class="daily-item">클로드 버닝타임: 한국시간 03:00~21:00 사용량 2배</div>
+<div class="daily-item">클로드 마이크로 음성 대화 가능</div>
+<div class="daily-item">안드로이드 앱 결제 3만원 (웹보다 저렴할 수 있음)</div>
+<div class="daily-item">유튜브 인증용 100원 알뜰폰 활용</div>
+<div class="daily-item">노트북+27인치 모니터 조합 추천</div>
+<div class="daily-item">YouTube API 키 저장: 클로드에게 요청하면 수정</div>
+
+<div class="daily-section-title">이슈/에러</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">고급인증 얼굴 벤: 채널 삭제 후 재인증 불가. 기록 남음</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">유튜브 고급기능 정지: 4월까지 재신청 대기</div>
 </div>
 
 <!-- 3/18 -->
-<div class="daily-content active" id="day-0318">
-    <div class="daily-summary">
-        <div class="daily-summary-title">2026-03-18</div>
-        <div class="daily-summary-desc">수업 전날 준비 안내, 추가 Q&A</div>
-    </div>
+<div class="daily-content" data-date="0318">
+<div class="daily-summary">
+    <div class="daily-summary-title">2026-03-18</div>
+    <div class="daily-summary-desc">수업 전날 준비 안내, 추가 Q&A. VSCode/파이썬/HTML 용어 등장</div>
+</div>
 
-    <div class="daily-section-title">용어/개념</div>
-    <div class="term-item searchable">
-        <div class="term-row">
-            <div class="term-name">VSCode</div>
-            <div class="term-desc">파일/코드 뷰어 앱. 수업에서 사용 예정</div>
-        </div>
-    </div>
-    <div class="term-item searchable">
-        <div class="term-row">
-            <div class="term-name">HTML</div>
-            <div class="term-desc">웹페이지 작성 언어. 클로드에게 PPT/정리 요청 시 활용</div>
-        </div>
-    </div>
-    <div class="term-item searchable">
-        <div class="term-row">
-            <div class="term-name">파이썬</div>
-            <div class="term-desc">프로그래밍 언어. 직접 안 쓰고 클로드가 사용</div>
-        </div>
-    </div>
+<div class="daily-section-title">용어/개념</div>
+<div class="daily-item"><span class="label">VSCode</span> — 파일/코드 뷰어 앱. 수업에서 사용 예정</div>
+<div class="daily-item"><span class="label">HTML</span> — 웹페이지 작성 언어. 클로드에게 PPT/정리 요청 시 활용</div>
+<div class="daily-item"><span class="label">파이썬 (Python)</span> — 프로그래밍 언어. 직접 안 쓰고 클로드가 사용</div>
 
-    <div class="daily-section-title">주요 Q&A</div>
-    <div class="qa-item searchable">
-        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-            <span class="toggle">&#9654;</span>
-            <span>클로드코드 4채널 운용 가능?</span>
-        </div>
-        <div class="qa-answer"><div class="qa-answer-inner">
-            가능. 다만 첫주차부터는 어렵고 7주차 끝날 때쯤이면 다양한 채널 가능
-            <div class="source">노씨</div>
-        </div></div>
-    </div>
+<div class="daily-section-title">Q&A</div>
+<div class="daily-item"><span class="label">Q:</span> 파이썬이랑 다른 건가요? → 클로드가 사용. 우리는 시키기만</div>
+<div class="daily-item"><span class="label">Q:</span> 클로드 Pro 결제해야? → 네. 오후 2시에 상세 안내</div>
+<div class="daily-item"><span class="label">Q:</span> 젠스파크 쓰는데 클로드도 따로? → 네, 따로 결제</div>
+<div class="daily-item"><span class="label">Q:</span> 클로드코드 4채널 운용? → 가능. 7주차쯤이면 다채널 가능</div>
+<div class="daily-item"><span class="label">Q:</span> HTML PPT 만드는 명령어? → "~~ 내용을 HTML ppt로 만들어줘"</div>
+<div class="daily-item"><span class="label">Q:</span> 안티그래비티 vs VSCode? → 둘 다 IDE, 취향 차이. 수업은 VSCode</div>
 
-    <div class="daily-section-title">꿀팁</div>
-    <div class="tip-item searchable">
-        <div class="tip-title">대본 자유도가 핵심</div>
-        <div class="tip-desc">사이트 자동화보다 직접 클로드로 대본 만드는 게 더 다양하고 좋음</div>
-    </div>
-    <div class="tip-item searchable">
-        <div class="tip-title">컴퓨터 여러대는 쇼맨십</div>
-        <div class="tip-desc">한대로 병렬처리 가능. 자극적인 자동화 영상에 속지 말 것</div>
-    </div>
+<div class="daily-section-title">꿀팁</div>
+<div class="daily-item">VSCode 사용 예정: 터미널 대신 코드 뷰어 앱으로 작업</div>
+<div class="daily-item">대본 자유도가 핵심: 사이트 자동화보다 직접 클로드로 만드는 게 퀄리티 높음</div>
+<div class="daily-item">컴퓨터 여러대는 쇼맨십: 한대로 병렬처리 가능</div>
 
-    <div class="daily-section-title">이슈</div>
-    <div class="tip-item searchable">
-        <div class="tip-desc">카페 승인/등업 오후 2시 일괄 처리 예정</div>
-    </div>
-    <div class="tip-item searchable">
-        <div class="tip-desc">후파님 오토봇 재부팅 진행</div>
-    </div>
+<div class="daily-section-title">이슈/에러</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">카페 승인/등업 오후 2시 일괄 처리 예정</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">수강생들 용어 어려움 호소 (초보자 배려 필요)</div>
 </div>
 
 <!-- 3/17 -->
-<div class="daily-content" id="day-0317">
-    <div class="daily-summary">
-        <div class="daily-summary-title">2026-03-17</div>
-        <div class="daily-summary-desc">가장 활발한 날 - Q&A, 꿀팁, 수강생 간 정보 공유 다수</div>
-    </div>
+<div class="daily-content" data-date="0317">
+<div class="daily-summary">
+    <div class="daily-summary-title">2026-03-17</div>
+    <div class="daily-summary-desc">가장 활발한 날 — Q&A, 꿀팁, 수강생 간 정보 공유 다수. 용어 31개 등장</div>
+</div>
 
-    <div class="daily-section-title">새로 나온 용어 (28개)</div>
-    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.8rem;">클로드코드, 스킬, 에이전트, 프롬프트 체이닝, 튜브워커, ElevenLabs, 캡컷, 브루, 안티그래비티, 위스크, 그록, 수노, 뮤레카, MCP, context window, RPM, CTR, TTS, SRT, 젠스파크, 세컨드 브레인, VEO3, 오토플로우, 플로우, seedance, Kling 2.1, Sora 2, 디키 유통 등</p>
+<div class="daily-section-title">용어/개념 (31개)</div>
+<div class="daily-item"><span class="label">클로드코드</span>, <span class="label">스킬</span>, <span class="label">에이전트</span>, <span class="label">프롬프트 체이닝</span>, <span class="label">튜브워커</span>, <span class="label">ElevenLabs</span>, <span class="label">캡컷</span>, <span class="label">브루</span>, <span class="label">안티그래비티</span>, <span class="label">위스크</span>, <span class="label">그록</span>, <span class="label">수노</span>, <span class="label">뮤레카</span>, <span class="label">MCP</span>, <span class="label">context window</span>, <span class="label">RPM</span>, <span class="label">CTR</span>, <span class="label">TTS</span>, <span class="label">SRT</span>, <span class="label">젠스파크</span>, <span class="label">세컨드 브레인</span>, <span class="label">VEO3</span>, <span class="label">오토플로우</span>, <span class="label">플로우</span>, <span class="label">seedance</span>, <span class="label">Kling</span>, <span class="label">Sora 2</span>, <span class="label">디키 유통</span>, <span class="label">화이트리스트</span>, <span class="label">바이브코딩</span>, <span class="label">오토봇</span></div>
 
-    <div class="daily-section-title">주요 Q&A (21개)</div>
-    <p style="font-size:0.85rem;color:var(--text-secondary);">강의/커리큘럼, 비용/결제, 기능/기술, 장비/환경, 유튜브/채널 등 다양한 주제</p>
+<div class="daily-section-title">주요 Q&A</div>
+<div class="daily-item"><span class="label">Q:</span> 목요일 강의 후 바로 영상 가능? → 네, 바로 프로그램 사용</div>
+<div class="daily-item"><span class="label">Q:</span> 대본 프롬프트 주시나요? → 같이 만들 것. 1주차 핵심</div>
+<div class="daily-item"><span class="label">Q:</span> 오토워커 작동 플로우? → 대본(자동)→이미지(반자동)→편집(수동)→업로드(자동)</div>
+<div class="daily-item"><span class="label">Q:</span> 자기 목소리 클론 가능? → ElevenLabs Professional/Instant 클론 가능</div>
+<div class="daily-item"><span class="label">Q:</span> 사업자 등록? → 월 500만원쯤 되면</div>
+<div class="daily-item"><span class="label">Q:</span> 노트북 가능? → 충분. 서버에서 처리</div>
 
-    <div class="daily-section-title">비용 정리</div>
-    <table class="cost-table">
-        <thead><tr><th>항목</th><th>비용</th><th>비고</th></tr></thead>
-        <tbody>
-            <tr><td>클로드 Pro</td><td>$20/월</td><td>토큰 2배 이벤트</td></tr>
-            <tr><td>영상 제작 (10분)</td><td>약 2,500원</td><td>TTS 비용</td></tr>
-            <tr><td>오토워커 유지비</td><td>3개월 무료 → 월 9.9~14.9만원</td><td></td></tr>
-            <tr><td>이미지 생성</td><td>무료</td><td>위스크/그록</td></tr>
-            <tr><td>제미나이 울트라</td><td>36만원/월</td><td>선택사항</td></tr>
-        </tbody>
-    </table>
+<div class="daily-section-title">꿀팁</div>
+<div class="daily-item">크롬 사용 추천 (구글 기반 호환성)</div>
+<div class="daily-item">일레븐랩스는 사이트 통해 사용 (단가+낭비 없음)</div>
+<div class="daily-item">이미지 채널별 차별화 필수</div>
+<div class="daily-item">이미지→영상 저렴한 순서: seedance > Kling > Sora 2</div>
+<div class="daily-item">알고리즘보다 시청자 중심</div>
+<div class="daily-item">클로드코드 데스크탑 앱 사용 가능 (최근 업데이트)</div>
 
-    <div class="daily-section-title">이슈</div>
-    <div class="tip-item">
-        <div class="tip-desc">카페 가입 승인 대기 (3/18 오후 2시 일괄 처리 예정)</div>
-    </div>
-    <div class="tip-item">
-        <div class="tip-desc">클로드 서버 오류/버벅거림 발생 (2배 이벤트 영향 추정)</div>
-    </div>
+<div class="daily-section-title">비용 정리</div>
+<table class="cost-table" style="margin-bottom:1rem;">
+    <tr><th>항목</th><th>비용</th><th>비고</th></tr>
+    <tr><td>클로드 Pro</td><td>$20/월</td><td>필수. 토큰 2배 이벤트</td></tr>
+    <tr><td>영상 제작 (10분)</td><td>약 2,500원</td><td>TTS 등</td></tr>
+    <tr><td>오토워커 유지비</td><td>3개월 무료 → 월 9.9만원</td><td>강의 시작일부터</td></tr>
+    <tr><td>이미지 생성</td><td>무료</td><td>위스크/그록</td></tr>
+</table>
+
+<div class="daily-section-title">이슈/에러</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">카페 가입 승인 대기 (3/18 오후 2시 처리 예정)</div>
+<div class="daily-item" style="border-left:3px solid #e94560;padding-left:0.8rem;">클로드 서버 오류/버벅거림 (2배 이벤트 영향 추정)</div>
 </div>
 
 <!-- 3/16 -->
-<div class="daily-content" id="day-0316">
-    <div class="daily-summary">
-        <div class="daily-summary-title">2026-03-16</div>
-        <div class="daily-summary-desc">대부분 입장 메시지이며, 일부 기대감/인사 위주 대화</div>
-    </div>
+<div class="daily-content" data-date="0316">
+<div class="daily-summary">
+    <div class="daily-summary-title">2026-03-16</div>
+    <div class="daily-summary-desc">대부분 입장 메시지. 기존 수강생 재수강 다수, 첫 강의 기대감</div>
+</div>
 
-    <div class="daily-section-title">용어/개념</div>
-    <div class="term-item">
-        <div class="term-row">
-            <div class="term-name">디하클</div>
-            <div class="term-desc">디지털 하이클래스 (교육 플랫폼)</div>
-        </div>
-    </div>
-    <div class="term-item">
-        <div class="term-row">
-            <div class="term-name">캄보디하클</div>
-            <div class="term-desc">디하클의 별명/애칭 (캄보디아 + 디하클)</div>
-        </div>
-    </div>
-    <div class="term-item">
-        <div class="term-row">
-            <div class="term-name">오토워커</div>
-            <div class="term-desc">AI 자동화로 유튜브 콘텐츠를 만드는 사람/과정</div>
-        </div>
-    </div>
+<div class="daily-section-title">용어/개념</div>
+<div class="daily-item"><span class="label">디하클</span> — 디지털 하이클래스 (교육 플랫폼)</div>
+<div class="daily-item"><span class="label">캄보디하클</span> — 디하클의 별명/애칭</div>
+<div class="daily-item"><span class="label">오토워커</span> — AI 자동화로 유튜브 콘텐츠를 만드는 사람/과정</div>
 
-    <div class="daily-section-title">분위기</div>
-    <div class="tip-item">
-        <div class="tip-desc">수강생 입장 메시지가 대부분. 기존 디하클 수강생들끼리 반가워하는 분위기. 초보자와 경험자 혼재, 첫 강의에 대한 기대감 높음</div>
-    </div>
+<div class="daily-section-title">꿀팁</div>
+<div class="daily-item">디하클 기존 수강생들이 많이 재수강 (강의 품질에 대한 신뢰 높음)</div>
+
+<div class="daily-section-title">분위기</div>
+<div class="daily-item">수강생 입장 메시지가 대부분. 기존 디하클 수강생들끼리 반가워하는 분위기. 초보자와 경험자 혼재, 첫 강의에 대한 기대감 높음.</div>
 </div>
 
 </div>
@@ -1657,74 +1784,100 @@
 </div>
 
 <div class="footer">
-    오토워커 1기 위키
+    오토워커 1기 위키 &middot; wiki.autoworkers.ai &middot; 자동 업데이트
 </div>
 
 <script>
-// Tab switching + term index visibility
-const termIndex = document.getElementById('termIndex');
+// Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        termIndex.classList.toggle('visible', btn.dataset.tab === 'terms');
+        // Show/hide term index
+        const idx = document.getElementById('termIndex');
+        if (btn.dataset.tab === 'terms') idx.classList.add('visible');
+        else idx.classList.remove('visible');
     });
 });
 
-// Smooth scroll for term index links
-document.querySelectorAll('.term-index a').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
-});
-
-// Highlight current section in term index on scroll
-const termSections = document.querySelectorAll('#tab-terms .section-title[id]');
-const termLinks = document.querySelectorAll('.term-index a');
-window.addEventListener('scroll', () => {
-    let current = '';
-    termSections.forEach(section => {
-        if (window.scrollY >= section.offsetTop - 120) {
-            current = section.id;
-        }
-    });
-    termLinks.forEach(link => {
-        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-    });
-});
-
+// Daily tab switching
 document.querySelectorAll('.daily-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.daily-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.daily-content').forEach(c => c.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('day-' + btn.dataset.day).classList.add('active');
+        document.querySelector('.daily-content[data-date="' + btn.dataset.date + '"]').classList.add('active');
     });
 });
 
-const searchInput = document.getElementById('searchInput');
-searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase().trim();
-    document.querySelectorAll('.searchable').forEach(item => {
-        if (!query) { item.classList.remove('hidden'); return; }
-        item.classList.toggle('hidden', !item.textContent.toLowerCase().includes(query));
+// Search
+document.getElementById('searchInput').addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    const activeTab = document.querySelector('.tab-content.active');
+    if (!activeTab) return;
+
+    activeTab.querySelectorAll('.searchable').forEach(item => {
+        if (!q) {
+            item.classList.remove('hidden');
+            return;
+        }
+        const text = item.textContent.toLowerCase();
+        item.classList.toggle('hidden', !text.includes(q));
     });
-    document.querySelectorAll('.section-title, .daily-section-title').forEach(title => {
-        if (!query) { title.classList.remove('hidden'); return; }
+
+    // For daily tab, also search daily-item
+    if (activeTab.id === 'tab-daily') {
+        const activeDailyContent = activeTab.querySelector('.daily-content.active');
+        if (activeDailyContent) {
+            activeDailyContent.querySelectorAll('.daily-item').forEach(item => {
+                if (!q) {
+                    item.classList.remove('hidden');
+                    return;
+                }
+                item.classList.toggle('hidden', !item.textContent.toLowerCase().includes(q));
+            });
+        }
+    }
+
+    // Also search section titles visibility
+    activeTab.querySelectorAll('.section-title:not(.term-anchor)').forEach(title => {
+        if (!q) { title.classList.remove('hidden'); return; }
         let next = title.nextElementSibling;
         let hasVisible = false;
-        while (next && !next.classList.contains('section-title') && !next.classList.contains('daily-section-title')) {
-            if (next.classList.contains('searchable') && !next.classList.contains('hidden')) { hasVisible = true; break; }
+        while (next && !next.classList.contains('section-title')) {
+            if (next.classList.contains('searchable') && !next.classList.contains('hidden')) {
+                hasVisible = true;
+                break;
+            }
             next = next.nextElementSibling;
         }
         title.classList.toggle('hidden', !hasVisible);
     });
+});
+
+// Term index active state on scroll
+const termObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            document.querySelectorAll('.term-index a').forEach(a => a.classList.remove('active'));
+            const link = document.querySelector('.term-index a[href="#' + e.target.id + '"]');
+            if (link) link.classList.add('active');
+        }
+    });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+document.querySelectorAll('.term-anchor[id]').forEach(anchor => {
+    termObserver.observe(anchor);
+});
+
+// Convert URLs in content to clickable links
+document.querySelectorAll('.term-detail-inner, .qa-answer-inner, .tip-desc, .daily-item').forEach(el => {
+    el.innerHTML = el.innerHTML.replace(
+        /(?<!href="|">)(https?:\/\/[^\s<]+)/g,
+        '<a href="$1" target="_blank">$1</a>'
+    );
 });
 </script>
 
