@@ -30,6 +30,15 @@ python3 -m http.server 8766 --directory _site   # http://localhost:8766
 
 새 섹션을 붙이려면 노션 페이지에 `오토워커 위키` 연결을 추가하고 `sections`에 한 줄 넣으면 된다.
 
+## 강의 라이브 모드
+
+강의 중 노션에 실시간으로 메모할 때 — 1분마다 변경을 확인하고 바뀌면 바로 배포 (입력 후 2~3분 내 반영).
+
+```bash
+python3 live.py        # 기본 4시간 뒤 자동 종료
+python3 live.py 2.5    # 2시간 반
+```
+
 ## 즉시 반영
 
 ```bash

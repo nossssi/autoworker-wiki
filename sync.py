@@ -177,7 +177,9 @@ def optimize_image(path):
 
 
 def shrink_video(path):
-    """95MB 넘는 영상 → 720p H.264 (ffmpeg 있을 때만)."""
+    """95MB 넘는 영상 → 720p H.264. CI에선 필요할 때만 ffmpeg를 설치한다(매 실행 40초 절약)."""
+    if not shutil.which("ffmpeg") and os.environ.get("CI") == "true":
+        subprocess.run("sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg", shell=True)
     if not shutil.which("ffmpeg"):
         return path
     out = path.with_name(path.stem + "_720p.mp4")
@@ -465,7 +467,21 @@ class Crawler:
         return self._pending_writes
 
 
-def main():
+def snapshot():
+    """변경 감지용: 페이지별 수정 시각 + DB 행 구성."""
+    snap = {}
+    for p in PAGES.glob("*.json"):
+        snap[p.name] = json.loads(p.read_text()).get("last_edited_time")
+    for p in DBS.glob("*.json"):
+        r = json.loads(p.read_text())
+        snap["db:" + p.name] = json.dumps([r.get("title"), [ds.get("rows") for ds in r.get("data_sources", [])]],
+                                          ensure_ascii=False)
+    return snap
+
+
+def main(quiet=False):
+    """동기화 후 {"changed": bool} 반환. 최근 2분 안에 수정된 페이지가 있으면 changed로 본다
+    (노션 수정 시각이 분 단위라 같은 분 안의 연속 수정을 놓치지 않기 위해)."""
     load_env()
     token = os.environ.get("NOTION_TOKEN", "").strip()
     if not token:
@@ -480,6 +496,7 @@ def main():
 
     for d in (PAGES, DBS, FILES):
         d.mkdir(parents=True, exist_ok=True)
+    before = snapshot()
     t0 = time.time()
     n = Notion(token)
     c = Crawler(n, include_private)
@@ -513,6 +530,13 @@ def main():
         "include_private": include_private,
     }, ensure_ascii=False))
 
+    after = snapshot()
+    now = datetime.now(timezone.utc)
+    recent = any(v and now - datetime.fromisoformat(v.replace("Z", "+00:00")) <= timedelta(minutes=2)
+                 for k, v in after.items() if not k.startswith("db:"))
+    result = {"changed": before != after or recent}
+    if quiet:
+        return result
     s = c.stats
     print(f"완료 {time.time() - t0:.0f}s · API {n.calls}회 · 페이지 {s['pages']}개(새로 받음 {s['pages_fetched']}) · "
           f"DB {s['dbs']}개 · 파일 다운로드 {s['downloaded']}개")
@@ -522,6 +546,7 @@ def main():
         print(f"  ⚠️ 다운로드 실패: {name} — {err}")
     for e in s["errors"]:
         print(f"  ⚠️ {e}")
+    return result
 
 
 if __name__ == "__main__":

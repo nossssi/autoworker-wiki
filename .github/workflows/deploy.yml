@@ -32,8 +32,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests pillow
-      - name: ffmpeg 준비 (100MB 넘는 영상 축소용)
-        run: which ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
       - name: 노션 캐시 복원
         uses: actions/cache@v4
         with:
