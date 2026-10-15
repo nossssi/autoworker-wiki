@@ -38,10 +38,17 @@ def hexid(i):
 
 
 def norm_id(s):
-    m = re.search(r"([0-9a-f]{32})", (s or "").replace("-", ""))
-    if not m:
-        return None
-    h = m.group(1)
+    """UUID(대시 有/無) 또는 노션 URL(…/제목-<32hex>)에서 페이지 ID 추출."""
+    s = (s or "").lower()
+    m = re.search(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", s)
+    if m:
+        h = m.group(0).replace("-", "")
+    else:
+        # 제목 슬러그의 숫자가 ID에 붙지 않도록 '독립된' 32자리 토큰을 찾는다 (예: /9-065c...)
+        m = re.search(r"(?<![0-9a-f])([0-9a-f]{32})(?![0-9a-f])", s)
+        if not m:
+            return None
+        h = m.group(1)
     return f"{h[:8]}-{h[8:12]}-{h[12:16]}-{h[16:20]}-{h[20:]}"
 
 
@@ -242,6 +249,15 @@ class Site:
         return href, False
 
 
+def _is_dead_wiki_link(self, u):
+    """예전 노션 사이트(wiki.autoworkers.ai/<slug>-<id>) 주소인데 우리 사이트에 없는 페이지."""
+    p = urlparse(u)
+    return p.netloc == "wiki.autoworkers.ai" and bool(norm_id(p.path)) and not self.url(norm_id(p.path))
+
+
+Site.is_dead_wiki_link = _is_dead_wiki_link
+
+
 def iter_blocks(blocks):
     for b in blocks or []:
         yield b
@@ -275,6 +291,17 @@ def rt_html(site, rts):
                 text = f'<span class="mention-date">{esc(fmt_date(d.get("start"), d.get("end")))}</span>'
             elif mt == "user":
                 text = f'<span class="mention-user">@{text.lstrip("@")}</span>'
+            elif mt in ("link_mention", "link_preview"):
+                lm = m[mt]
+                u, internal = site.map_href(lm.get("href") or lm.get("url") or t.get("href"))
+                label = esc(lm.get("title") or t.get("plain_text", ""))
+                if internal:
+                    text = f'<a class="mention" href="{esc(u)}">{label}</a>'
+                elif u and site.is_dead_wiki_link(u):
+                    text = f'<span class="mention muted" title="노션 전용 페이지">{label}</span>'
+                else:
+                    text = f'<a class="mention" href="{esc(u)}" target="_blank" rel="noopener">{label} ↗</a>'
+                href = ""
         elif typ == "equation":
             text = f'<code class="math">{esc(t["equation"]["expression"])}</code>'
         if a.get("code"):
@@ -292,8 +319,11 @@ def rt_html(site, rts):
             text = f'<span class="c-{color}">{text}</span>'
         if href and typ != "mention":
             u, internal = site.map_href(href)
-            ext = "" if internal else ' target="_blank" rel="noopener"'
-            text = f'<a href="{esc(u)}"{ext}>{text}</a>'
+            if not internal and site.is_dead_wiki_link(u):
+                text = f'<span class="muted" title="노션 전용 페이지">{text}</span>'
+            else:
+                ext = "" if internal else ' target="_blank" rel="noopener"'
+                text = f'<a href="{esc(u)}"{ext}>{text}</a>'
         out.append(text)
     return "".join(out)
 
@@ -709,7 +739,34 @@ def render_schedule(site, did, rows):
     return f'<div class="schedule">{"".join(out)}</div>'
 
 
-def render_db_list(site, did, rows, rend=None):
+def group_rows(site, did, rows):
+    """행이 6개 이상이고 '분류' 같은 select 값이 2종 이상이면 [(이름, 색, 행들)] 로 묶는다.
+    순서는 노션 스키마의 옵션 순서, 값 없는 행은 맨 뒤 '기타'."""
+    if did == site.curriculum_db or len(rows) < 6:
+        return None, None
+    ds = rows[0][0]
+    cands = [(n, p) for n, p in (ds.get("properties") or {}).items()
+             if p["type"] in ("select", "status") and n not in site.hide_props]
+    cands.sort(key=lambda x: x[0] != "분류")
+    for name, p in cands:
+        def val(r):
+            v = (r["properties"].get(name) or {}).get(p["type"])
+            return v["name"] if v else None
+        present = {val(r) for _, r in rows} - {None}
+        if len(present) < 2:
+            continue
+        order = [(o["name"], o.get("color", "default")) for o in (p.get(p["type"]) or {}).get("options", [])]
+        known = {n for n, _ in order}
+        order += [(n, "default") for n in sorted(present - known)]
+        groups = [(n, c, [(d, r) for d, r in rows if val(r) == n]) for n, c in order if n in present]
+        rest = [(d, r) for d, r in rows if val(r) is None]
+        if rest:
+            groups.append(("기타", "default", rest))
+        return name, groups
+    return None, None
+
+
+def render_db_list(site, did, rows, rend=None, skip_prop=None):
     if not rows:
         return '<p class="muted">아직 항목이 없어요.</p>'
     imgs = [first_image(site, r) for _, r in rows]
@@ -727,6 +784,8 @@ def render_db_list(site, did, rows, rend=None):
         chips, date = [], ""
         for name, typ in visible_props(site, ds):
             pv = r["properties"].get(name) or {}
+            if name == skip_prop:
+                continue
             if typ in ("select", "multi_select", "status"):
                 chips.append(prop_value_html(site, pv))
             elif typ == "date" and not date:
@@ -745,6 +804,19 @@ def render_db_list(site, did, rows, rend=None):
                        else f'<div class="row nolink">{inner}</div>')
     cls = "gallery" if gallery else "rows"
     return f'<div class="{cls}">{"".join(out)}</div>'
+
+
+def render_db_body(site, did, rows, rend=None):
+    if did == site.curriculum_db:
+        return render_schedule(site, did, rows)
+    gprop, groups = group_rows(site, did, rows)
+    if not groups:
+        return render_db_list(site, did, rows, rend)
+    out = []
+    for name, color, grows in groups:
+        out.append(f'<div class="db-group"><h4 class="db-group-title"><span class="dot t-{color if color in TAG_COLORS else "default"}"></span>'
+                   f'{esc(name)}<span class="muted">{len(grows)}</span></h4>{render_db_list(site, did, grows, rend, skip_prop=gprop)}</div>')
+    return "".join(out)
 
 
 def render_db_block(site, did, rend=None):
@@ -767,7 +839,7 @@ def render_db_block(site, did, rend=None):
     rows = db_rows(site, did)
     if not rows:
         return ""
-    body = render_schedule(site, did, rows) if did == site.curriculum_db else render_db_list(site, did, rows, rend)
+    body = render_db_body(site, did, rows, rend)
     return f'<section class="db"><h3 class="db-title" id="{hid}">{icon}{esc(title)}</h3>{body}</section>'
 
 
@@ -783,11 +855,21 @@ def nav_tree(site):
             if b["type"] == "child_database":
                 did = norm_id(b["id"])
                 if did in site.public_dbs and not site.dbs[did].get("error") and did != site.curriculum_db:
-                    kids = []
-                    for _, r in db_rows(site, did):
-                        if site.has_content(r["id"]):
-                            kids.append({"id": r["id"], "label": site.title(r["id"]), "url": site.url(r["id"]),
-                                         "kids": children_of_page(r["id"], depth + 2)})
+                    def row_items(rows):
+                        return [{"id": r["id"], "label": site.title(r["id"]), "url": site.url(r["id"]),
+                                 "kids": children_of_page(r["id"], depth + 2)}
+                                for _, r in rows if site.has_content(r["id"])]
+                    rows = db_rows(site, did)
+                    _, groups = group_rows(site, did, rows)
+                    if groups:
+                        kids = []
+                        for name, color, grows in groups:
+                            gk = row_items(grows)
+                            if gk:
+                                kids.append({"id": f"{did}:{name}", "label": name, "url": None, "kids": gk,
+                                             "count": len(gk), "color": color})
+                    else:
+                        kids = row_items(rows)
                     if kids:
                         items.append({"id": did, "label": site.db_title(did), "url": None, "kids": kids})
             elif b["type"] == "child_page":
@@ -806,16 +888,23 @@ def nav_tree(site):
 
 
 def nav_html(site, tree, active_ids, current):
+    def has_active(it):
+        return it["id"] in active_ids or any(has_active(k) for k in it["kids"])
+
     def walk(items, depth):
         out = []
         for it in items:
-            open_ = it["id"] in active_ids
+            open_ = has_active(it)
             cur = ' aria-current="page"' if it["id"] == current else ""
             label = esc(it["label"])
             if depth == 0:
                 sec = it["section"]
                 icon = site.icon_html(site.pages[sec["id"]].get("icon"), "nav-ic")
                 label = f"{icon}{label}"
+            if it.get("count"):
+                color = it.get("color", "default")
+                label = (f'<span class="dot t-{color if color in TAG_COLORS else "default"}"></span>{label}'
+                         f'<span class="nav-count">{it["count"]}</span>')
             link = (f'<a href="{it["url"]}"{cur}>{label}</a>' if it["url"]
                     else f'<span class="nav-group">{label}</span>')
             if it["kids"]:
@@ -982,7 +1071,7 @@ def build_page(site, tree, pid, index):
 def build_db_page(site, tree, did, index):
     rend = Renderer(site, did)
     rows = db_rows(site, did)
-    body = render_schedule(site, did, rows) if did == site.curriculum_db else render_db_list(site, did, rows, rend)
+    body = render_db_body(site, did, rows, rend)
     title = site.db_title(did)
     icon = site.icon_html(site.dbs[did].get("icon"), "page-icon")
     article = f'<article class="content"><header class="page-head">{icon}<h1>{esc(title)}</h1></header>{body}</article>'

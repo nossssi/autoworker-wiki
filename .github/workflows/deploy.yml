@@ -41,10 +41,16 @@ jobs:
         run: python build.py
         env:
           LINK_SALT: ${{ secrets.LINK_SALT }}
-      - uses: actions/upload-pages-artifact@v3
+      # upload-pages-artifact는 tar -v로 파일 목록을 로그에 찍는다 → 공개 저장소 로그에
+      # 프반 비밀 경로가 노출되므로 조용히 묶어서 같은 형식(github-pages/artifact.tar)으로 올린다
+      - name: 사이트 묶기 (파일 목록 로그 없이)
+        run: tar --dereference --hard-dereference --directory _site -cf "$RUNNER_TEMP/artifact.tar" --exclude=.git --exclude=.github .
+      - uses: actions/upload-artifact@v4
         with:
-          path: _site
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
           retention-days: 1
+          if-no-files-found: error
 
   deploy:
     needs: build
