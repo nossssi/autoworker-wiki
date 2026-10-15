@@ -30,13 +30,16 @@ python3 -m http.server 8766 --directory _site   # http://localhost:8766
 
 새 섹션을 붙이려면 노션 페이지에 `오토워커 위키` 연결을 추가하고 `sections`에 한 줄 넣으면 된다.
 
-## 강의 라이브 모드
+## 노션 변경 감시 (2~3분 내 반영)
 
-강의 중 노션에 실시간으로 메모할 때 — 1분마다 변경을 확인하고 바뀌면 바로 배포 (입력 후 2~3분 내 반영).
+`watch.py`가 1분마다 노션 검색 API에 "최근 수정순"을 1회 물어보고, 새 수정이 있으면 배포 워크플로를 실행한다.
+대표 맥북에 launchd로 상시 등록되어 있다 (`~/Library/LaunchAgents/ai.autoworkers.wiki-watch.plist`, 로그 `.cache/watch.log`).
+맥북이 꺼져 있을 땐 GitHub Actions 30분 예약 실행이 대신한다. 삭제(휴지통)는 검색에 안 잡혀 30분 실행에서 반영된다.
 
 ```bash
-python3 live.py        # 기본 4시간 뒤 자동 종료
-python3 live.py 2.5    # 2시간 반
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/ai.autoworkers.wiki-watch.plist    # 끄기
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.autoworkers.wiki-watch.plist  # 켜기
+python3 watch.py --loop   # 다른 컴퓨터에서 임시로 돌릴 때
 ```
 
 ## 즉시 반영
