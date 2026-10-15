@@ -1,0 +1,56 @@
+name: 노션 동기화 + 배포
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # 30분마다 노션 변경분 반영
+  workflow_dispatch:          # gh workflow run deploy.yml 로 즉시 실행
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pillow
+      - name: ffmpeg 준비 (100MB 넘는 영상 축소용)
+        run: which ffmpeg || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+      - name: 노션 캐시 복원
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: notion-${{ github.run_id }}
+          restore-keys: notion-
+      - name: 노션 동기화
+        run: python sync.py
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+      - name: 사이트 빌드
+        run: python build.py
+        env:
+          LINK_SALT: ${{ secrets.LINK_SALT }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
