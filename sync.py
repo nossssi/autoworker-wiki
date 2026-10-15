@@ -20,6 +20,7 @@ import threading
 import time
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -341,6 +342,7 @@ class Crawler:
         cache_path = PAGES / f"{page_id}.json"
         cached = json.loads(cache_path.read_text()) if cache_path.exists() else None
         if (cached and cached.get("last_edited_time") == page["last_edited_time"]
+                and self._fetched_after_edit(cached)
                 and self._cached_files_ok(cached["blocks"])):
             blocks = cached["blocks"]
             # 캐시된 블록의 파일이 지워졌을 수 있으니 다운로드 큐에는 다시 넣는다(이미 있으면 스킵됨)
@@ -354,9 +356,11 @@ class Crawler:
             self.stats["pages_fetched"] += 1
         self.collect_files_in_props(page.get("properties"))
         self.collect_icon(page)
+        reused = blocks is (cached or {}).get("blocks")
         rec = {
             "id": page_id,
             "parent": parent,
+            "fetched_at": cached["fetched_at"] if reused else self.started_at,
             "url": page.get("url"),
             "created_time": page.get("created_time"),
             "last_edited_time": page["last_edited_time"],
@@ -368,6 +372,16 @@ class Crawler:
         self._pending_writes.append((cache_path, rec))
         self.stats["pages"] += 1
         return self.walk_refs(blocks, page_id)
+
+    @staticmethod
+    def _fetched_after_edit(cached):
+        """노션 last_edited_time은 분 단위 → 같은 분 안에 받아온 캐시는 그 뒤 수정분을 놓쳤을 수 있다.
+        수정 시각 + 1분 이후에 받은 캐시만 믿는다."""
+        fa = cached.get("fetched_at")
+        if not fa:
+            return False
+        edited = datetime.fromisoformat(cached["last_edited_time"].replace("Z", "+00:00"))
+        return datetime.fromisoformat(fa) >= edited + timedelta(minutes=1)
 
     def _requeue_cached(self, blocks):
         for b in blocks:
@@ -434,6 +448,8 @@ class Crawler:
         return futs
 
     def run(self, roots, private_ids):
+        # 블록 요청 전에 찍은 시각 — 이 시각 이후 수정분은 다음 동기화에서 다시 받는다
+        self.started_at = datetime.now(timezone.utc).isoformat()
         self.private_ids = {norm_id(x) for x in private_ids}
         self._pending_writes = []
         futs = []

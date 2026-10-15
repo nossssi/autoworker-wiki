@@ -11,6 +11,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write   # 아래 keepalive용
 
 concurrency:
   group: pages
@@ -21,6 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # 공개 저장소는 60일간 커밋이 없으면 예약 실행이 꺼진다 → 실행 때마다 다시 켜서 타이머를 리셋
+      - name: 예약 실행 유지 (keepalive)
+        if: github.event_name == 'schedule'
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/deploy.yml/enable" || true
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
