@@ -78,7 +78,7 @@
 
   const loadIndex = async () => {
     if (index) return index;
-    const r = await fetch('/search-index.json');
+    const r = await fetch((document.body.dataset.base || '') + '/search-index.json');
     index = (await r.json()).map((d) => ({ ...d, _t: d.t.toLowerCase(), _x: d.x.toLowerCase() }));
     return index;
   };

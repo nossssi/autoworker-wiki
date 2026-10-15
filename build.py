@@ -7,6 +7,8 @@
        /p/<id>/    일반 페이지·DB 행
        /d/<id>/    풀페이지 DB (인라인이 아닌 DB)
 - 검색 인덱스: /search-index.json
+- 판(edition): 공개판은 루트(/)에 private 아닌 섹션만, 프반판은 /premium-<토큰>/ 아래에 전체 섹션.
+  토큰 = HMAC(LINK_SALT) — 저장소에 남지 않으므로 링크를 받은 사람만 들어올 수 있다.
 사용: python3 build.py
 """
 import hashlib
@@ -88,7 +90,9 @@ def slugify(text):
 # ───────────────────────── 데이터 로드 ─────────────────────────
 
 class Site:
-    def __init__(self):
+    def __init__(self, base="", include_private=False):
+        self.base = base  # 판 경로 접두사 ("" = 공개판)
+        self.include_private = include_private
         self.cfg = json.loads((ROOT / "config.json").read_text())
         self.pages = {}
         self.dbs = {}
@@ -105,6 +109,8 @@ class Site:
         self.sections = []
         for s in self.cfg["sections"]:
             pid = norm_id(s["page_id"])
+            if s.get("private") and not include_private:
+                continue
             if pid in self.pages:
                 self.sections.append(dict(s, id=pid))
         self.section_of_root = {s["id"]: s for s in self.sections}
@@ -164,11 +170,11 @@ class Site:
 
     def url(self, oid):
         if oid in self.section_of_root:
-            return f"/{self.section_of_root[oid]['slug']}/"
+            return f"{self.base}/{self.section_of_root[oid]['slug']}/"
         if oid in self.public_pages:
-            return f"/p/{hexid(oid)}/"
+            return f"{self.base}/p/{hexid(oid)}/"
         if oid in self.public_dbs:
-            return f"/d/{hexid(oid)}/"
+            return f"{self.base}/d/{hexid(oid)}/"
         return None
 
     def parent_of(self, oid):
@@ -795,7 +801,7 @@ def nav_tree(site):
         kids = children_of_page(s["id"], 0)
         if len(kids) == 1 and kids[0]["url"] is None:
             kids = kids[0]["kids"]
-        tree.append({"id": s["id"], "label": s["title"], "url": f"/{s['slug']}/", "section": s, "kids": kids})
+        tree.append({"id": s["id"], "label": s["title"], "url": f"{site.base}/{s['slug']}/", "section": s, "kids": kids})
     return tree
 
 
@@ -847,17 +853,17 @@ def page_shell(site, *, title, body, nav, crumbs="", toc="", desc="", body_cls="
 <link rel="stylesheet" href="/assets/style.css?v={site.build_id}">
 <script>try{{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 </head>
-<body class="{body_cls}">
+<body class="{body_cls}" data-base="{site.base}">
 <header class="topbar">
   <button class="icon-btn menu-btn" type="button" aria-label="메뉴 열기" data-menu>☰</button>
-  <a class="brand" href="/"><img src="/assets/logo.png" alt="" class="brand-logo"><span>{esc(cfg['title'])}</span></a>
+  <a class="brand" href="{site.base}/"><img src="/assets/logo.png" alt="" class="brand-logo"><span>{esc(cfg['title'])}</span></a>
   <button class="search-btn" type="button" data-search-open><span>🔍 검색</span><kbd>⌘K</kbd></button>
   <button class="icon-btn" type="button" aria-label="다크 모드 전환" data-theme-toggle>◐</button>
 </header>
 <div class="layout">
   <aside class="sidebar" data-sidebar>
     <nav aria-label="전체 메뉴">{nav}</nav>
-    <div class="sidebar-foot"><a href="/">🏠 홈</a><a href="/gen1/">📚 1기 위키</a></div>
+    <div class="sidebar-foot"><a href="{site.base}/">🏠 홈</a><a href="/gen1/">📚 1기 위키</a></div>
   </aside>
   <div class="scrim" data-scrim></div>
   <main class="main">
@@ -879,7 +885,7 @@ def page_shell(site, *, title, body, nav, crumbs="", toc="", desc="", body_cls="
 
 
 def crumbs_html(site, oid):
-    parts = ['<a href="/">홈</a>']
+    parts = [f'<a href="{site.base}/">홈</a>']
     for aid, kind in site.ancestors(oid):
         if kind == "db":
             parts.append(f"<span>{esc(site.db_title(aid))}</span>")
@@ -1005,7 +1011,7 @@ def build_home(site, tree):
         page = site.pages[s["id"]]
         icon = site.icon_html(page.get("icon"), "sec-icon") or '<span class="sec-icon">📘</span>'
         n = sum(1 for p in site.public_pages if site.section_for.get(p, {}).get("slug") == s["slug"] and site.has_content(p))
-        cards.append(f'<a class="sec-card" href="/{s["slug"]}/">{icon}<span class="sec-name">{esc(s["title"])}</span>'
+        cards.append(f'<a class="sec-card" href="{site.base}/{s["slug"]}/">{icon}<span class="sec-name">{esc(s["title"])}</span>'
                      f'<span class="sec-tag">{esc(s.get("tagline", ""))}</span><span class="sec-count">자료 {n}개 →</span></a>')
     # 다가오는 일정
     up = upcoming(site)
@@ -1022,7 +1028,7 @@ def build_home(site, tree):
                        f'<span class="up-date">{d.month}/{d.day} ({WEEKDAYS[d.weekday()]})</span>'
                        f'<span class="up-title">{esc(site.title(r["id"]))}</span><span class="chips">{chips}</span></li>')
         up_html = (f'<section class="home-block"><div class="hb-head"><h2>다가오는 일정</h2>'
-                   f'<a href="/common/#{slugify(site.db_title(site.curriculum_db))}">전체 일정 →</a></div>'
+                   f'<a href="{site.base}/common/#{slugify(site.db_title(site.curriculum_db))}">전체 일정 →</a></div>'
                    f'<ul class="upcoming">{"".join(lis)}</ul></section>')
     # 최근 업데이트
     recent = sorted((p for p in site.public_pages if p not in site.section_of_root and site.has_content(p)),
@@ -1039,18 +1045,27 @@ def build_home(site, tree):
         first = next((b for b in site.pages[site.sections[0]["id"]]["blocks"] if b["type"] == "callout"), None)
         if first:
             principle = Renderer(site, None).block(first)
+    if site.include_private:
+        title_txt = f"{cfg['title']} · 프리미엄반"
+        desc_txt = "공통 자료 + 프리미엄반 강의를 한곳에서"
+        notice = ('<div class="callout bg-purple"><span class="callout-icon">🔒</span><div class="callout-body">'
+                  '<b>프리미엄반 전용 주소예요.</b> 이 링크는 프반 수강생에게만 안내된 주소이니 외부에 공유하지 말아 주세요. '
+                  '즐겨찾기 해두시면 편해요.</div></div>')
+    else:
+        title_txt, desc_txt, notice = cfg["title"], cfg["description"], ""
     body = f"""
 <section class="hero">
-  <h1>{esc(cfg['title'])}</h1>
-  <p>{esc(cfg['description'])}</p>
+  <h1>{esc(title_txt)}</h1>
+  <p>{esc(desc_txt)}</p>
   <button class="hero-search" type="button" data-search-open>🔍 무엇이든 검색해 보세요 <kbd>⌘K</kbd></button>
 </section>
+{notice}
 <div class="sec-cards">{''.join(cards)}</div>
 {principle}
 {up_html}
 <section class="home-block"><div class="hb-head"><h2>최근 업데이트</h2></div><div class="rows">{rec_html}</div></section>
 """
-    write(OUT / "index.html", page_shell(site, title=cfg["title"], body=body,
+    write(OUT / site.base.strip("/") / "index.html", page_shell(site, title=cfg["title"], body=body,
                                          nav=nav_html(site, tree, set(), None), body_cls="home"))
 
 
@@ -1060,14 +1075,24 @@ def build_404(site, tree):
     write(OUT / "404.html", page_shell(site, title="찾을 수 없음", body=body, nav=nav_html(site, tree, set(), None), body_cls="home"))
 
 
-def main():
-    site = Site()
-    if not site.sections:
-        raise SystemExit("캐시에 섹션 페이지가 없습니다 — 먼저 python3 sync.py 를 실행하세요.")
-    site.build_id = hashlib.sha1(str(datetime.now(timezone.utc).timestamp()).encode()).hexdigest()[:8]
-    if OUT.exists():
-        shutil.rmtree(OUT)
-    OUT.mkdir()
+def load_env():
+    env = ROOT / ".env"
+    if env.exists():
+        for line in env.read_text().splitlines():
+            if "=" in line and not line.strip().startswith("#"):
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+
+
+def premium_base():
+    salt = os.environ.get("LINK_SALT", "").strip()
+    if not salt:
+        return None
+    return "/premium-" + hmac.new(salt.encode(), b"premium-edition", hashlib.sha256).hexdigest()[:12]
+
+
+def build_edition(site, build_id):
+    site.build_id = build_id
     tree = nav_tree(site)
     index = []
     for pid in sorted(site.public_pages):
@@ -1077,11 +1102,35 @@ def main():
         if not db.get("error") and not db.get("is_inline", True):
             build_db_page(site, tree, did, index)
     build_home(site, tree)
-    build_404(site, tree)
-    write(OUT / "search-index.json", json.dumps(index, ensure_ascii=False, separators=(",", ":")))
+    if not site.base:
+        build_404(site, tree)
+    write(OUT / site.base.strip("/") / "search-index.json", json.dumps(index, ensure_ascii=False, separators=(",", ":")))
+    return tree
+
+
+def main():
+    load_env()
+    build_id = hashlib.sha1(str(datetime.now(timezone.utc).timestamp()).encode()).hexdigest()[:8]
+    public = Site()
+    if not public.sections:
+        raise SystemExit("캐시에 섹션 페이지가 없습니다 — 먼저 python3 sync.py 를 실행하세요.")
+    if OUT.exists():
+        shutil.rmtree(OUT)
+    OUT.mkdir()
+    editions = [public]
+    has_private = any(s.get("private") for s in public.cfg["sections"])
+    pbase = premium_base()
+    if has_private and pbase:
+        editions.append(Site(base=pbase, include_private=True))
+    elif has_private:
+        print("⚠️ LINK_SALT가 없어 프리미엄반 판은 만들지 않았습니다 (공개판에는 원래 포함되지 않음).")
+    used = set()
+    for site in editions:
+        build_edition(site, build_id)
+        used |= site.used_files
     # 정적 자산 + 사용된 노션 파일만 복사 (비공개 페이지 파일이 섞이지 않도록)
     shutil.copytree(STATIC, OUT / "assets")
-    for rel in site.used_files:
+    for rel in used:
         src = CACHE / rel
         if src.exists():
             dst = OUT / rel
@@ -1095,8 +1144,13 @@ def main():
             shutil.copy2(ROOT / f, OUT / f)
     write(OUT / "robots.txt", "User-agent: *\nDisallow: /\n")
     size = sum(p.stat().st_size for p in OUT.rglob("*") if p.is_file())
-    print(f"빌드 완료 → _site/ · 페이지 {len(site.public_pages)}개 · DB {len(site.public_dbs)}개 · "
-          f"파일 {len(site.used_files)}개 · {size / 1e6:.1f}MB")
+    for site in editions:
+        label = "프반판" if site.base else "공개판"
+        print(f"{label}: 페이지 {len(site.public_pages)}개 · DB {len(site.public_dbs)}개")
+    print(f"빌드 완료 → _site/ · 파일 {len(used)}개 · {size / 1e6:.1f}MB")
+    # 공개 저장소의 Actions 로그에 비밀 주소가 찍히지 않도록 로컬에서만 출력
+    if len(editions) > 1 and os.environ.get("CI") != "true":
+        print(f"프반 주소: https://{public.cfg['site']['domain']}{pbase}/")
 
 
 if __name__ == "__main__":
