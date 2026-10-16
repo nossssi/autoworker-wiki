@@ -578,7 +578,7 @@ class Renderer:
     def too_big(self, d):
         info = d if "too_big" in d else (d.get(d.get("type"), {}) or {})
         if info.get("too_big"):
-            return f'<div class="callout bg-yellow"><span class="callout-icon">⚠️</span><div class="callout-body">용량이 큰 파일({human_size(info.get("size"))})이라 노션에서만 볼 수 있어요.</div></div>'
+            return f'<div class="callout bg-yellow"><span class="callout-icon">⚠️</span><div class="callout-body">용량이 큰 파일({human_size(info.get("size"))})이라 위키에는 올리지 못했어요. 녹화본은 카페·드라이브 공지를 확인해 주세요.</div></div>'
         return ""
 
     def heading_id(self, text):
@@ -622,6 +622,9 @@ def prop_value_html(site, prop, compact=False):
     if t == "date":
         return f'<span class="date">{esc(fmt_date(v.get("start"), v.get("end")))}</span>'
     if t == "rich_text":
+        if compact:  # 표 칸에선 한 줄 요약
+            txt = " ".join(plain(v).split())
+            return esc(txt[:60] + ("…" if len(txt) > 60 else ""))
         return rt_html(site, v)
     if t == "number":
         return esc(f"{v:,}" if isinstance(v, (int, float)) else str(v))
@@ -765,7 +768,39 @@ def group_rows(site, did, rows):
     return None, None
 
 
+TABLE_TYPES = ("select", "multi_select", "status", "date", "number", "url", "rich_text", "checkbox", "formula")
+
+
+def row_has_page(site, page):
+    """DB 행이 개별 페이지를 가질 가치가 있는지 — 본문이 있거나 첨부 파일이 있을 때만."""
+    par = page.get("parent") or {}
+    if par.get("type") != "database":
+        return True
+    return site.has_content(page["id"]) or any(
+        p.get("type") == "files" and p.get("files") for p in page["properties"].values())
+
+
+def render_db_table(site, did, rows, rend=None, skip_prop=None):
+    """본문 없는 행들로 된 데이터형 DB(실습 결과물·템플릿 예시 등) → 노션 표처럼."""
+    ds = rows[0][0]
+    cols = [(n, t) for n, t in visible_props(site, ds) if t in TABLE_TYPES and n != skip_prop][:6]
+    head = "<th>이름</th>" + "".join(f"<th>{esc(n)}</th>" for n, _ in cols)
+    trs = []
+    for _, r in rows:
+        if rend:
+            rend.text.append(site.title(r["id"]))
+        tds = "".join(f"<td>{prop_value_html(site, r['properties'].get(n) or {}, compact=True)}</td>" for n, _ in cols)
+        trs.append(f"<tr><td class=\"t-title\">{esc(site.title(r['id']))}</td>{tds}</tr>")
+    shown, rest = trs[:50], trs[50:]
+    more = (f'<details class="toggle more-rows"><summary>나머지 {len(rest)}개 더 보기</summary>'
+            f'<div class="table-wrap"><table><tr>{head}</tr>{"".join(rest)}</table></div></details>') if rest else ""
+    return f'<div class="table-wrap db-table"><table><tr>{head}</tr>{"".join(shown)}</table></div>{more}'
+
+
 def render_db_list(site, did, rows, rend=None, skip_prop=None):
+    if rows and not any(row_has_page(site, r) for _, r in rows) and len(
+            [1 for n, t in visible_props(site, rows[0][0]) if t in TABLE_TYPES]) >= 2:
+        return render_db_table(site, did, rows, rend, skip_prop)
     if not rows:
         return '<p class="muted">아직 항목이 없어요.</p>'
     imgs = [first_image(site, r) for _, r in rows]
@@ -1191,7 +1226,8 @@ def build_edition(site, build_id):
     tree = nav_tree(site)
     index = []
     for pid in sorted(site.public_pages):
-        build_page(site, tree, pid, index)
+        if row_has_page(site, site.pages[pid]):
+            build_page(site, tree, pid, index)
     for did in sorted(site.public_dbs):
         db = site.dbs[did]
         if not db.get("error") and not db.get("is_inline", True):

@@ -193,10 +193,22 @@ def shrink_video(path):
     return path
 
 
+SHRINK_MAX_BYTES = 200 * 1024 * 1024    # 이보다 큰 영상(긴 줌 녹화 등)은 줄여도 한도를 넘으니 변환하지 않음
+
+
+def mark_too_big(folder, name, size, stats):
+    (folder / ".too_big").write_text(str(size))
+    stats["skipped_big"].append((name, size))
+    return {"local": None, "size": size, "too_big": True}
+
+
 def download(url, stats):
     key, name = file_key(url)
     folder = FILES / key
-    done = [p for p in folder.glob("*") if not p.name.endswith(".part")] if folder.exists() else []
+    marker = folder / ".too_big"
+    if marker.exists():  # 예전에 한도 초과로 판정된 파일 — 다시 받지 않는다
+        return {"local": None, "size": int(marker.read_text() or 0), "too_big": True}
+    done = [p for p in folder.glob("*") if not p.name.endswith(".part") and not p.name.startswith(".")] if folder.exists() else []
     if done:
         return {"local": f"files/{key}/{done[0].name}", "size": done[0].stat().st_size}
     folder.mkdir(parents=True, exist_ok=True)
@@ -207,6 +219,9 @@ def download(url, stats):
     try:
         with requests.get(url, stream=True, timeout=300, headers={"User-Agent": UA}) as r:
             r.raise_for_status()
+            declared = int(r.headers.get("Content-Length") or 0)
+            if declared > (SHRINK_MAX_BYTES if ext in VIDEO_EXT else MAX_FILE_BYTES):
+                return mark_too_big(folder, name, declared, stats)
             n = 0
             with open(tmp, "wb") as f:
                 for chunk in r.iter_content(1 << 16):
@@ -220,18 +235,16 @@ def download(url, stats):
         return {"local": None, "error": str(e)[:120]}
     if n > limit:
         tmp.unlink(missing_ok=True)
-        stats["skipped_big"].append((name, n))
-        return {"local": None, "size": n, "too_big": True}
+        return mark_too_big(folder, name, n, stats)
     tmp.rename(dest)
     if ext in IMAGE_EXT:
         dest = optimize_image(dest)
-    elif ext in VIDEO_EXT and dest.stat().st_size > MAX_FILE_BYTES:
+    elif ext in VIDEO_EXT and MAX_FILE_BYTES < dest.stat().st_size <= SHRINK_MAX_BYTES:
         dest = shrink_video(dest)
     size = dest.stat().st_size
     if size > MAX_FILE_BYTES:
         dest.unlink()
-        stats["skipped_big"].append((name, size))
-        return {"local": None, "size": size, "too_big": True}
+        return mark_too_big(folder, name, size, stats)
     stats["downloaded"] += 1
     return {"local": f"files/{key}/{dest.name}", "size": size}
 

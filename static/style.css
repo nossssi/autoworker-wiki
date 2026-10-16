@@ -235,6 +235,10 @@ audio { width: 100%; }
 .db-title { display: flex; align-items: center; gap: 8px; font-size: 19px; margin: 0 0 10px !important; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
 .db-title .ic-img { width: 22px; height: 22px; }
 .db-group { margin: 18px 0 22px; }
+.db-table table { font-size: 13.5px; }
+.db-table td, .more-rows td { white-space: nowrap; max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
+.db-table td.t-title, .more-rows td.t-title { white-space: normal; min-width: 220px; font-weight: 500; }
+.more-rows { margin-top: 6px; }
 .db-group-title { display: flex; align-items: center; gap: 8px; font-size: 15.5px !important; margin: 0 0 8px !important; }
 .db-group-title .muted { font-weight: 500; font-size: 13px; }
 .rows { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
