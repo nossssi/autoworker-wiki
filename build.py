@@ -951,7 +951,7 @@ def page_shell(site, *, title, body, nav, crumbs="", toc="", desc="", body_cls="
 <div class="layout">
   <aside class="sidebar" data-sidebar>
     <nav aria-label="전체 메뉴">{nav}</nav>
-    <div class="sidebar-foot"><a href="{site.base}/">🏠 홈</a>{"".join(f'<a href="{esc(l["href"])}">{esc(l["label"])}</a>' for l in cfg.get("links", []))}</div>
+    <div class="sidebar-foot"><a href="{site.base}/">🏠 홈</a>{"".join(f'<a href="{esc(l["href"].replace("{base}", site.base))}">{esc(l["label"])}</a>' for l in cfg.get("links", []))}</div>
   </aside>
   <div class="scrim" data-scrim></div>
   <main class="main">
@@ -1236,9 +1236,11 @@ def main():
             dst = OUT / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dst)
+    # 1기 채팅 정리(예전 위키)는 1기 판 안에만 둔다 — 쉬운 공개 주소(/gen1/) 없음
     legacy = ROOT / "legacy" / "gen1"
-    if legacy.exists():
-        shutil.copytree(legacy, OUT / "gen1")
+    for site in sites:
+        if site.ed.get("legacy_chat") and legacy.exists():
+            shutil.copytree(legacy, OUT / site.base.strip("/") / "chat")
     for f in ("CNAME", ".nojekyll"):
         if (ROOT / f).exists():
             shutil.copy2(ROOT / f, OUT / f)

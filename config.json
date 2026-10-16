@@ -64,9 +64,10 @@
       "links": [
         {
           "label": "💬 1기 채팅 정리",
-          "href": "/gen1/"
+          "href": "{base}/chat/"
         }
-      ]
+      ],
+      "legacy_chat": true
     },
     {
       "key": "gen1-premium",
@@ -81,10 +82,11 @@
       "links": [
         {
           "label": "💬 1기 채팅 정리",
-          "href": "/gen1/"
+          "href": "{base}/chat/"
         }
       ],
-      "notice": "1기 프리미엄반 전용 주소예요. 이 링크는 프반 수강생에게만 안내된 주소이니 외부에 공유하지 말아 주세요."
+      "notice": "1기 프리미엄반 전용 주소예요. 이 링크는 프반 수강생에게만 안내된 주소이니 외부에 공유하지 말아 주세요.",
+      "legacy_chat": true
     }
   ],
   "private_feedback": {
