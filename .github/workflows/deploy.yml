@@ -43,7 +43,7 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
       - name: 사이트 빌드
-        run: python build.py
+        run: python build.py && python check_leaks.py
         env:
           LINK_SALT: ${{ secrets.LINK_SALT }}
       # upload-pages-artifact는 tar -v로 파일 목록을 로그에 찍는다 → 공개 저장소 로그에

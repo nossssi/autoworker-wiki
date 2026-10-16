@@ -489,7 +489,7 @@ def main(quiet=False):
     cfg = json.loads((ROOT / "config.json").read_text())
     pf = cfg.get("private_feedback", {})
     include_private = bool(pf.get("enabled"))
-    roots = [s["page_id"] for s in cfg["sections"]]
+    roots = [s["page_id"] for s in cfg["sections"].values()]
     if include_private:
         roots.append(pf["page_id"])
     private_ids = [] if include_private else [pf.get("db_id", "")] if pf.get("db_id") else []

@@ -1,26 +1,92 @@
 {
-  "site": {
-    "title": "오토워커 2기 위키",
-    "short": "오토워커 2기",
-    "domain": "wiki.autoworkers.ai",
-    "description": "오토워커 2기 강의 자료 · 공지를 한곳에서"
-  },
-  "sections": [
-    {
+  "domain": "wiki.autoworkers.ai",
+  "sections": {
+    "aw2-common": {
       "slug": "common",
       "title": "공통",
       "tagline": "일반반·프리미엄반 모두 보는 강의 자료",
       "page_id": "3b5c8b66674080cf863fd91bcc90bdbf"
     },
-    {
+    "aw2-premium": {
       "slug": "premium",
       "title": "프리미엄반",
       "tagline": "프리미엄반 정규강의 · 특강 · 공개피드백",
-      "page_id": "3b3c8b66674080e4b918d328d964de07",
-      "private": true
+      "page_id": "3b3c8b66674080e4b918d328d964de07"
+    },
+    "aw1-common": {
+      "slug": "common",
+      "title": "공통",
+      "tagline": "1기 전체가 보는 강의 자료",
+      "page_id": "c73c8b66674082119a5c014288324590"
+    },
+    "aw1-premium": {
+      "slug": "premium",
+      "title": "프리미엄반",
+      "tagline": "1기 프리미엄반 강의",
+      "page_id": "32dc8b666740805fae1df22c420b14eb"
+    }
+  },
+  "_editions_note": "판마다 비밀 경로 /<prefix>-<HMAC(LINK_SALT, key)[:12]>/ — key를 바꾸면 주소가 바뀐다. premium-edition은 이미 공유된 2기 프반 주소라 유지",
+  "editions": [
+    {
+      "key": "gen2-common",
+      "prefix": "aw2",
+      "title": "오토워커 2기 위키",
+      "short": "오토워커 2기",
+      "description": "오토워커 2기 강의 자료 · 공지를 한곳에서",
+      "sections": [
+        "aw2-common"
+      ],
+      "curriculum_db": "3b4c8b66674080cabf52de7b3bea1f65"
+    },
+    {
+      "key": "premium-edition",
+      "prefix": "premium",
+      "title": "오토워커 2기 위키 · 프리미엄반",
+      "short": "오토워커 2기",
+      "description": "공통 자료 + 프리미엄반 강의를 한곳에서",
+      "sections": [
+        "aw2-common",
+        "aw2-premium"
+      ],
+      "curriculum_db": "3b4c8b66674080cabf52de7b3bea1f65",
+      "notice": "프리미엄반 전용 주소예요. 이 링크는 프반 수강생에게만 안내된 주소이니 외부에 공유하지 말아 주세요."
+    },
+    {
+      "key": "gen1-common",
+      "prefix": "aw1",
+      "title": "오토워커 1기 위키",
+      "short": "오토워커 1기",
+      "description": "오토워커 1기 강의 자료 · 공지를 한곳에서",
+      "sections": [
+        "aw1-common"
+      ],
+      "links": [
+        {
+          "label": "💬 1기 채팅 정리",
+          "href": "/gen1/"
+        }
+      ]
+    },
+    {
+      "key": "gen1-premium",
+      "prefix": "aw1p",
+      "title": "오토워커 1기 위키 · 프리미엄반",
+      "short": "오토워커 1기",
+      "description": "1기 공통 자료 + 프리미엄반 강의를 한곳에서",
+      "sections": [
+        "aw1-common",
+        "aw1-premium"
+      ],
+      "links": [
+        {
+          "label": "💬 1기 채팅 정리",
+          "href": "/gen1/"
+        }
+      ],
+      "notice": "1기 프리미엄반 전용 주소예요. 이 링크는 프반 수강생에게만 안내된 주소이니 외부에 공유하지 말아 주세요."
     }
   ],
-  "curriculum_db": "3b4c8b66674080cabf52de7b3bea1f65",
   "private_feedback": {
     "enabled": false,
     "page_id": "3dac8b666740800888d6cf8304fe4eea",

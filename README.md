@@ -23,12 +23,15 @@ python3 -m http.server 8766 --directory _site   # http://localhost:8766
 
 | 키 | 뜻 |
 |---|---|
-| `sections` | 사이트 섹션 = 노션 루트 페이지 (slug가 URL: `/common/`, `/premium/`) |
-| `curriculum_db` | 이 DB는 월별 일정표로 렌더링 + 홈 "다가오는 일정" |
+| `sections` | 노션 루트 페이지 사전 (2기·1기 공통/프반) |
+| `editions` | 판 = 섹션 묶음 + 비밀 경로 `/<prefix>-<HMAC(LINK_SALT, key)[:12]>/`. 루트(/)는 안내 페이지만 |
+| `editions[].curriculum_db` | 이 DB는 월별 일정표로 렌더링 + 홈 "다가오는 일정" |
 | `private_feedback.enabled` | 1:1 피드백 명단 포함 여부 (기본 꺼짐 — 실명·이메일 포함) |
 | `hide_properties` / `hide_property_types` | 사이트에 절대 노출하지 않을 DB 속성 |
 
-새 섹션을 붙이려면 노션 페이지에 `오토워커 위키` 연결을 추가하고 `sections`에 한 줄 넣으면 된다.
+새 기수를 붙이려면 노션 페이지에 `오토워커위키` 연결을 추가하고 `sections`·`editions`에 추가한다.
+판 주소는 로컬에서 `python3 build.py` 출력으로만 확인한다 (공개 저장소라 Actions 로그엔 찍지 않음).
+`check_leaks.py`가 판끼리 경로·전용 페이지가 섞이지 않았는지 배포 전에 검사한다.
 
 ## 노션 변경 감시 (2~3분 내 반영)
 

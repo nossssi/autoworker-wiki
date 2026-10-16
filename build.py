@@ -97,9 +97,9 @@ def slugify(text):
 # ───────────────────────── 데이터 로드 ─────────────────────────
 
 class Site:
-    def __init__(self, base="", include_private=False):
-        self.base = base  # 판 경로 접두사 ("" = 공개판)
-        self.include_private = include_private
+    def __init__(self, edition):
+        self.ed = edition          # config.json의 판(edition) 하나
+        self.base = edition["base"]  # 판 비밀 경로 (예: /aw2-xxxxxxxxxxxx)
         self.cfg = json.loads((ROOT / "config.json").read_text())
         self.pages = {}
         self.dbs = {}
@@ -114,14 +114,13 @@ class Site:
         self.hide_props = set(self.cfg.get("hide_properties", []))
         self.hide_types = set(self.cfg.get("hide_property_types", []))
         self.sections = []
-        for s in self.cfg["sections"]:
+        for key in edition["sections"]:
+            s = self.cfg["sections"][key]
             pid = norm_id(s["page_id"])
-            if s.get("private") and not include_private:
-                continue
             if pid in self.pages:
-                self.sections.append(dict(s, id=pid))
+                self.sections.append(dict(s, id=pid, key=key))
         self.section_of_root = {s["id"]: s for s in self.sections}
-        self.curriculum_db = norm_id(self.cfg.get("curriculum_db"))
+        self.curriculum_db = norm_id(edition.get("curriculum_db"))
         self.used_files = set()
         self.private_ids = set()
         pf = self.cfg.get("private_feedback", {})
@@ -917,7 +916,7 @@ def nav_html(site, tree, active_ids, current):
 
 
 def page_shell(site, *, title, body, nav, crumbs="", toc="", desc="", body_cls=""):
-    cfg = site.cfg["site"]
+    cfg = site.ed
     full_title = f"{title} · {cfg['short']}" if title != cfg["title"] else title
     synced = site.manifest.get("synced_at", "")
     synced_txt = ""
@@ -952,7 +951,7 @@ def page_shell(site, *, title, body, nav, crumbs="", toc="", desc="", body_cls="
 <div class="layout">
   <aside class="sidebar" data-sidebar>
     <nav aria-label="전체 메뉴">{nav}</nav>
-    <div class="sidebar-foot"><a href="{site.base}/">🏠 홈</a><a href="/gen1/">📚 1기 위키</a></div>
+    <div class="sidebar-foot"><a href="{site.base}/">🏠 홈</a>{"".join(f'<a href="{esc(l["href"])}">{esc(l["label"])}</a>' for l in cfg.get("links", []))}</div>
   </aside>
   <div class="scrim" data-scrim></div>
   <main class="main">
@@ -1094,7 +1093,7 @@ def upcoming(site, n=4):
 
 
 def build_home(site, tree):
-    cfg = site.cfg["site"]
+    cfg = site.ed
     cards = []
     for s in site.sections:
         page = site.pages[s["id"]]
@@ -1134,14 +1133,14 @@ def build_home(site, tree):
         first = next((b for b in site.pages[site.sections[0]["id"]]["blocks"] if b["type"] == "callout"), None)
         if first:
             principle = Renderer(site, None).block(first)
-    if site.include_private:
-        title_txt = f"{cfg['title']} · 프리미엄반"
-        desc_txt = "공통 자료 + 프리미엄반 강의를 한곳에서"
-        notice = ('<div class="callout bg-purple"><span class="callout-icon">🔒</span><div class="callout-body">'
-                  '<b>프리미엄반 전용 주소예요.</b> 이 링크는 프반 수강생에게만 안내된 주소이니 외부에 공유하지 말아 주세요. '
-                  '즐겨찾기 해두시면 편해요.</div></div>')
+    title_txt, desc_txt = cfg["title"], cfg["description"]
+    notice = ""
+    if cfg.get("notice"):
+        notice = (f'<div class="callout bg-purple"><span class="callout-icon">🔒</span><div class="callout-body">'
+                  f'<b>{esc(cfg["notice"])}</b> 즐겨찾기 해두시면 편해요.</div></div>')
     else:
-        title_txt, desc_txt, notice = cfg["title"], cfg["description"], ""
+        notice = ('<div class="callout bg-gray"><span class="callout-icon">🔖</span><div class="callout-body">'
+                  '수강생에게만 안내된 주소예요. 즐겨찾기 해두시면 편해요.</div></div>')
     body = f"""
 <section class="hero">
   <h1>{esc(title_txt)}</h1>
@@ -1158,10 +1157,19 @@ def build_home(site, tree):
                                          nav=nav_html(site, tree, set(), None), body_cls="home"))
 
 
-def build_404(site, tree):
-    body = ('<section class="hero"><h1>페이지를 찾을 수 없어요</h1><p>주소가 바뀌었거나 삭제된 페이지예요.</p>'
-            '<button class="hero-search" type="button" data-search-open>🔍 검색으로 찾기</button></section>')
-    write(OUT / "404.html", page_shell(site, title="찾을 수 없음", body=body, nav=nav_html(site, tree, set(), None), body_cls="home"))
+def root_page(title, heading, text):
+    """루트(/)와 404 — 어떤 판의 주소도 노출하지 않는 안내 페이지."""
+    return f"""<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{esc(title)}</title>
+<link rel="icon" href="/assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/style.css">
+<style>.gate{{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center}}
+.gate img{{width:96px;height:96px;object-fit:contain}}.gate h1{{margin:4px 0 0;font-size:26px}}.gate p{{margin:0;color:var(--text-soft)}}</style>
+</head><body><main class="gate"><img src="/assets/logo.png" alt=""><h1>{esc(heading)}</h1><p>{esc(text)}</p></main></body></html>"""
 
 
 def load_env():
@@ -1173,11 +1181,9 @@ def load_env():
                 os.environ.setdefault(k.strip(), v.strip())
 
 
-def premium_base():
-    salt = os.environ.get("LINK_SALT", "").strip()
-    if not salt:
-        return None
-    return "/premium-" + hmac.new(salt.encode(), b"premium-edition", hashlib.sha256).hexdigest()[:12]
+def edition_base(salt, ed):
+    """판 비밀 경로 — 저장소엔 key만 있고 LINK_SALT가 없으면 계산할 수 없다."""
+    return f"/{ed['prefix']}-" + hmac.new(salt.encode(), ed["key"].encode(), hashlib.sha256).hexdigest()[:12]
 
 
 def build_edition(site, build_id):
@@ -1191,32 +1197,37 @@ def build_edition(site, build_id):
         if not db.get("error") and not db.get("is_inline", True):
             build_db_page(site, tree, did, index)
     build_home(site, tree)
-    if not site.base:
-        build_404(site, tree)
     write(OUT / site.base.strip("/") / "search-index.json", json.dumps(index, ensure_ascii=False, separators=(",", ":")))
     return tree
 
 
 def main():
     load_env()
+    salt = os.environ.get("LINK_SALT", "").strip()
+    if not salt:
+        raise SystemExit("LINK_SALT가 없습니다 — 모든 판이 비밀 경로라 LINK_SALT 없이는 빌드하지 않습니다.")
+    cfg = json.loads((ROOT / "config.json").read_text())
     build_id = hashlib.sha1(str(datetime.now(timezone.utc).timestamp()).encode()).hexdigest()[:8]
-    public = Site()
-    if not public.sections:
-        raise SystemExit("캐시에 섹션 페이지가 없습니다 — 먼저 python3 sync.py 를 실행하세요.")
     if OUT.exists():
         shutil.rmtree(OUT)
     OUT.mkdir()
-    editions = [public]
-    has_private = any(s.get("private") for s in public.cfg["sections"])
-    pbase = premium_base()
-    if has_private and pbase:
-        editions.append(Site(base=pbase, include_private=True))
-    elif has_private:
-        print("⚠️ LINK_SALT가 없어 프리미엄반 판은 만들지 않았습니다 (공개판에는 원래 포함되지 않음).")
+    sites = []
+    for ed in cfg["editions"]:
+        site = Site(dict(ed, base=edition_base(salt, ed)))
+        if not site.sections:
+            print(f"⚠️ {ed['title']}: 노션 페이지가 캐시에 없어 건너뜀 (통합 연결 확인)")
+            continue
+        sites.append(site)
+    if not sites:
+        raise SystemExit("빌드할 판이 없습니다 — 먼저 python3 sync.py 를 실행하세요.")
     used = set()
-    for site in editions:
+    for site in sites:
         build_edition(site, build_id)
         used |= site.used_files
+    write(OUT / "index.html", root_page("오토워커 위키", "오토워커 위키",
+                                        "수강생에게 안내된 주소로 접속해 주세요."))
+    write(OUT / "404.html", root_page("찾을 수 없음", "페이지를 찾을 수 없어요",
+                                      "주소가 바뀌었거나 없는 페이지예요. 안내받은 주소를 다시 확인해 주세요."))
     # 정적 자산 + 사용된 노션 파일만 복사 (비공개 페이지 파일이 섞이지 않도록)
     shutil.copytree(STATIC, OUT / "assets")
     for rel in used:
@@ -1233,13 +1244,13 @@ def main():
             shutil.copy2(ROOT / f, OUT / f)
     write(OUT / "robots.txt", "User-agent: *\nDisallow: /\n")
     size = sum(p.stat().st_size for p in OUT.rglob("*") if p.is_file())
-    for site in editions:
-        label = "프반판" if site.base else "공개판"
-        print(f"{label}: 페이지 {len(site.public_pages)}개 · DB {len(site.public_dbs)}개")
+    for site in sites:
+        print(f"{site.ed['title']}: 페이지 {len(site.public_pages)}개 · DB {len(site.public_dbs)}개")
     print(f"빌드 완료 → _site/ · 파일 {len(used)}개 · {size / 1e6:.1f}MB")
     # 공개 저장소의 Actions 로그에 비밀 주소가 찍히지 않도록 로컬에서만 출력
-    if len(editions) > 1 and os.environ.get("CI") != "true":
-        print(f"프반 주소: https://{public.cfg['site']['domain']}{pbase}/")
+    if os.environ.get("CI") != "true":
+        for site in sites:
+            print(f"  {site.ed['title']}: https://{cfg['domain']}{site.base}/")
 
 
 if __name__ == "__main__":
